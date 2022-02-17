@@ -19,6 +19,22 @@ public class Main { //comentario
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
 
+	/*List<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
+	lsbs.add( new RoundRobinStrategyBuilder() );
+	lsbs.add( new MostCrowdedStrategyBuilder() );
+	Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory
+	<>(lsbs);
+	FACTORÍAS!!!!
+	List<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
+dqbs.add( new MoveFirstStrategyBuilder() );
+dqbs.add( new MoveAllStrategyBuilder() );
+Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(
+dqbs);
+
+	*/
+
+	
+	
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options

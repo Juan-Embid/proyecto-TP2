@@ -11,10 +11,14 @@ public class Junction extends SimulatedObject{
 	private LightSwitchStrategy lightChangeStrategy;
 	private DequeuingStrategy extractElements;
 
-	Junction(String id) {
+	Junction(String id, LightSwitchStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
+			//Observa que la constructora recibe las estrategias como parámetros. Debe comprobar que
+		//lsStrategy y dqStrategy no son null, y que xCoor y yCoor no son negativos, y lanzar una
+		//excepción en caso contrario
+		
 		super(id);
 	}
-
+	
 	@Override
 	void advance(int time) {
 		
@@ -25,4 +29,25 @@ public class Junction extends SimulatedObject{
 		return null;
 	}
 
+	void addIncommingRoad(Road r) {
+		
+	}
+	
+	void addOutGoingRoad(Road r) {
+		
+	}
+	
+	void enter(Vehicle v) {
+		
+	}
+	
+	Road roadTo(Junction j) {
+		
+		return null;
+	}
+	
+	/*void advance(time t) {
+		
+	}*/
+	
 }

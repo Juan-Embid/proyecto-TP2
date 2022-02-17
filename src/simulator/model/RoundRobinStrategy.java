@@ -1,5 +1,5 @@
 package simulator.model;
 
-public interface RoundRobinStrategy {
+public class RoundRobinStrategy {
 
 }

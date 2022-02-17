@@ -1,5 +1,5 @@
 package simulator.model;
 
-public interface MostCrowdedStrategy {
+public class MostCrowdedStrategy {
 
 }
