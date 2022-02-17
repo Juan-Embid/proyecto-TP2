@@ -12,7 +12,7 @@ import org.apache.commons.cli.ParseException;
 import simulator.factories.Factory;
 import simulator.model.Event;
 
-public class Main {
+public class Main { //comentario
 
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null;
