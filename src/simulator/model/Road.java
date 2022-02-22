@@ -45,7 +45,7 @@ abstract class Road extends SimulatedObject{
 	}
 	
 	void addContamination(int c) {
-		
+		totalPollution += c;
 	}
 	
 	abstract void reduceTotalContamination();
@@ -54,9 +54,13 @@ abstract class Road extends SimulatedObject{
 	
 	abstract int calculateVehicleSpeed(Vehicle v);
 	
-	void getLength() {}
+	int getLength() {
+		return length;
+	}
 	
-	void getDest() {}
+	Junction getDest() {
+		return destinyCross;
+	}
 	
 	void getSrc() {}
 	

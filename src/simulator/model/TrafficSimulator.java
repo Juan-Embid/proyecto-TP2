@@ -22,7 +22,7 @@ public class TrafficSimulator {
 	}
 	
 	public JSONObject report() {
-		
+		return null;
 	}
 	
 }
