@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class Vehicle extends SimulatedObject{
 	private List<Junction> itinerary;
-	private int maxSpeed, currentSpeed, location, pollution, totalPollution, totalDistance;
+	private int maxSpeed, currentSpeed, location, pollution, totalPollution, totalDistance, index;
 	private VehicleStatus status;
 	private Road road;
 
@@ -25,6 +25,7 @@ public class Vehicle extends SimulatedObject{
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		this.status = VehicleStatus.PENDING;
 		this.road = null;
+		this.index = 0;
 		
 	}
 
@@ -54,17 +55,20 @@ public class Vehicle extends SimulatedObject{
 
 	@Override
 	public JSONObject report() {
-		/*{
-		"type" : "new_vehicle",
-		"data" : {
-		"time" : 1,
-		"id" : "v1",
-		"maxspeed" : 100,
-		"class" : 3,
-		"itinerary" : ["j3", "j1", "j5", "j4"]
+		JSONObject reportJSON = new JSONObject();
+		
+		reportJSON.put("id", _id);
+		reportJSON.put("speed", currentSpeed);
+		reportJSON.put("distance", totalDistance);
+		reportJSON.put("co2", totalPollution);
+		reportJSON.put("class", pollution);
+		reportJSON.put("status", status);
+		
+		if (status != VehicleStatus.PENDING || status != VehicleStatus.ARRIVED) {
+			reportJSON.put("road", road.getId());
+			reportJSON.put("location", location);
 		}
-		}*/
-		return null;
+		return reportJSON;
 	}
 	
 	void setSpeed(int s) {
@@ -83,39 +87,66 @@ public class Vehicle extends SimulatedObject{
 	
 	void moveToNextRoad() {
 		
+		if (status != VehicleStatus.PENDING && status != VehicleStatus.WAITING)
+			throw new IllegalArgumentException("Error: invalid Vehicle status");
+		//si acaba de empezar
+		if(index != 0)
+		road.exit(this);
+		
+		currentSpeed = 0;
+		location = 0;
+		//si ha acabado
+		if(itinerary.size() -1 == index) {
+			status = VehicleStatus.ARRIVED;
+			road = null;
+		} //Si está pending
+		else if(status.equals(VehicleStatus.PENDING)) {
+			road = itinerary.get(index + 1).roadTo(itinerary.get(index));
+		}else { //si no está pending
+			road = road.getDest().roadTo(road.getDest());
+		}
+		if(!road.equals(null)) {
+			status = VehicleStatus.TRAVELING;
+			road.enter(this);
+		}
+		index++;
+	}
+	
+	private void setStatus() {
+		if (status != VehicleStatus.TRAVELING)
+			currentSpeed = 0;
 	}
 	
 	public int getLocation() {
-		return 0;
+		return location;
 	}
 
 	public int getSpeed() {
-		return 0;
+		return currentSpeed;
 	}
 	
 	public int getMaxSpeed() {
-		return 0;
+		return maxSpeed;
 	}
 	
 	public int getContClass() {
-		return 0;
+		return pollution;
 	}
 	
-	public int getStatus() {
-		return 0;
+	public VehicleStatus getStatus() {
+		return status;
 	}
 	
 	public int getTotalCO2() {
-		return 0;
+		return totalPollution;
 	}
 	
-	public int getItinerary() {
-		return 0;
+	public List<Junction> getItinerary() {
+		return itinerary;
 	}
 	
-	public int getRoad() {
-		return 0;
+	public Road getRoad() {
+		return road;
 	}
 	
-	//setter --> cuando la velocidad del vehiculo no es traveling la ponemos a 0
 }

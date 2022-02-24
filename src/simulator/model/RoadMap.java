@@ -59,8 +59,13 @@ public class RoadMap {
 	}
 	
 	public JSONObject report() {
+		JSONObject reportJSON = new JSONObject();
 		
-		return null;
+		reportJSON.put("junctions", crossRoad);
+		reportJSON.put("road", roads);
+		reportJSON.put("vehicles", vehicles);
+
+		return reportJSON;
 	}
 	
 }

@@ -1,50 +1,77 @@
 package simulator.model;
+import java.util.Collections;
 import java.util.List;
 import org.json.JSONObject;
 
 abstract class Road extends SimulatedObject{
 	private Junction originCross, destinyCross;
-	private int length, maxVelocity, currentVelocity, pollutionAlert, totalPollution;
+	private int length, maxVelocity, currentVelocity, pollutionAlert, totalPollution, speedLimit;
 	private Weather enviCondition;
 	private List<Vehicle> vehicles;
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
-		//maxSpeed es positivo; contLimit es no negativo; length es positivo; srcJunc, destJunc y weather son distintos de null
+		if(maxVelocity < 0 || pollutionAlert < 0 || length < 0 || originCross == null || destinyCross == null || weather == null)
+			throw new IllegalArgumentException("Argument(s) invalids");
+		destinyCross = destJunc;
+		originCross = srcJunc;
+		maxVelocity = maxSpeed;
+		speedLimit = maxSpeed;
+		pollutionAlert = contLimit; 
+		this.length = length;
+		enviCondition = weather;
+		originCross.addOutGoingRoad(this);
+		destinyCross.addIncommingRoad(this);
+		
 	}
 
 	@Override	
-	void advance(int time) {
-		//llama a reducetotalcontamination
-		//llama a updatespeedlimit
-		//recorre lista de vehiculos...
+	public void advance(int time) {
+		
+		reduceTotalContamination();
+		updateSpeedLimit();
+		for (Vehicle vehicle : vehicles) {
+			vehicle.setSpeed(calculateVehicleSpeed(vehicle));
+			vehicle.advance(time);
+		}
+		//TODO ORDENAR LOS COCHES POR LOCALIZACION
 	}
 
 	@Override
 	public JSONObject report() {
-		/*{
-		"id" : "r3",
-		"speedlimit" : 100,
-		"weather" : "SUNNY",
-		"co2" : 100,
-		"vehicles" : ["v1","v2",...],
-		}*/
-		return null;
-	}
-	
-	void enter(Vehicle v) {
+		JSONObject reportJSON = new JSONObject();
 		
+		reportJSON.put("id", _id);
+		reportJSON.put("speedlimit", maxVelocity);
+		reportJSON.put("weather", enviCondition);
+		reportJSON.put("co2", totalPollution);
+		reportJSON.put("vehicles", vehicles);
+
+		return reportJSON;
 	}
 	
-	void exit(Vehicle v) {
-		
+	public void enter(Vehicle v) {
+		if(v.getLocation() != 0 || v.getSpeed() != 0)
+			throw new IllegalArgumentException("Error: invalid Vehicle status");
+	vehicles.add(v);
 	}
 	
-	void setWeather(Weather w) {
-		
+	public void exit(Vehicle v) {
+		for (Vehicle vehicle : vehicles) {
+			if(v == vehicle)
+				vehicles.remove(vehicle);
+		}
 	}
 	
-	void addContamination(int c) {
+	 public void setWeather(Weather w) {
+		if(w == null)
+			throw new IllegalArgumentException("Error: invalid Vehicle status");
+		enviCondition = w;	
+	}
+	
+	public void addContamination(int c) {
+		if(c < 0)
+		throw new IllegalArgumentException("Error: invalid Vehicle status");
 		totalPollution += c;
 	}
 	
@@ -54,28 +81,40 @@ abstract class Road extends SimulatedObject{
 	
 	abstract int calculateVehicleSpeed(Vehicle v);
 	
-	int getLength() {
+	public int getLength() {
 		return length;
 	}
 	
-	Junction getDest() {
+	public Junction getDest() {
 		return destinyCross;
 	}
 	
-	void getSrc() {}
+	public Junction getSrc() {
+		return originCross;
+	}
 	
-	void getWeather() {}
+	public Weather getWeather() {
+		return enviCondition;
+	}
 	
-	void getContLimit() {}
+	public int getPollutionAlert() {
+		return pollutionAlert;
+	}
 	
-	void getMaxSpeed() {}
+	public int getMaxVelocity() {
+		return maxVelocity;
+	}
 	
-	void getTotalCO2() {}
+	public int getTotalCO2() {
+		return totalPollution;
+	}
 	
-	void getSpeedLimit() {}
+	public int getSpeedLimit() {
+		return speedLimit;
+	}
 	
-	void getVehicles() {
-		//debe devolver una lista de solo lectura...
+	public List <Vehicle> getVehicles() {
+		return Collections.unmodifiableList(vehicles);
 	}
 
 }
