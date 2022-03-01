@@ -1,5 +1,15 @@
 package simulator.model;
 
-public class MoveFirstStrategy {
-//devuelve una lista que incluye el primer vehículo de q.
+import java.util.ArrayList;
+import java.util.List;
+
+public class MoveFirstStrategy implements DequeuingStrategy{
+
+	@Override
+	public List<Vehicle> dequeu(List<Vehicle> q) {
+		List<Vehicle> g = new ArrayList<>();
+		g.add(q.get(0));
+		return g;
+	}
+
 }

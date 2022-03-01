@@ -1,8 +1,8 @@
 package simulator.model;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import org.json.JSONObject;
 
 public class RoadMap {
@@ -14,48 +14,73 @@ public class RoadMap {
 	Map<String,Vehicle> vehiclesMap;
 	
 	void addJunction(Junction j) {
+		if(crossMap.containsKey(j.getId()))
+			throw new IllegalArgumentException("Error: duplicated juntion");
 		
+		crossRoad.add(j);
+		crossMap.put(j.getId(), j);
 	}
 	
 	void addRoad(Road r){
+		if(roadMap.containsKey(r.getId()))
+			throw new IllegalArgumentException("Error: duplicated road");
+		else if (roadMap.containsKey(r.getDest().getId()) && roadMap.containsKey(r.getSrc().getId()))
+			throw new IllegalArgumentException("Error: junctions doesn't exist");
 		
+		roads.add(r);
+		roadMap.put(r.getId(), r);
 	}
+	
 	void addVehicle(Vehicle v) {
+		if(vehiclesMap.containsKey(v.getId()))
+			throw new IllegalArgumentException("Error: duplicated vehicle");
+		else if (vehiclesMap.containsKey(v.getRoad().getId()))
+			throw new IllegalArgumentException("Error: itinerary not valid");
 		
+		vehicles.add(v);
+		vehiclesMap.put(v.getId(), v);
 	}
 	
 	public Junction getJunction(String id) {
-		
+		if(crossMap.containsKey(id))
+			return crossMap.get(id);
 		return null;
 	}
 	
 	public Road getRoad(String id) {
-		
+		if(roadMap.containsKey(id))
+			return roadMap.get(id);
 		return null;
 	}
 	
 	public Vehicle getVehicle(String id) {
-		
+		if(vehiclesMap.containsKey(id))
+			return vehiclesMap.get(id);
 		return null;
 	}
 	
-	public List<Junction>getJunctions(){
-		
-		return null;
+	public List<Junction> getJunctions(){
+		return Collections.unmodifiableList(crossRoad);
 	}
 	
-	public List<Road>getRoads(){
-		
-		return null;
+	public List<Road> getRoads(){
+		return Collections.unmodifiableList(roads);
 	}
 	
-	public List<Vehicle>getVehicles(){
-		
-		return null;
+	public List<Vehicle> getVehicles(){
+		return Collections.unmodifiableList(vehicles);
 	}
 	
 	void reset() {
-		
+		crossMap.clear();
+		roadMap.clear();
+		vehiclesMap.clear();
+		crossRoad.clear();
+		roads.clear();
+		vehicles.clear();
+		/*crossRoad = new SortedArrayList<>();
+		roads = new SortedArrayList<>();
+		vehicles = new SortedArrayList<>();*/
 	}
 	
 	public JSONObject report() {

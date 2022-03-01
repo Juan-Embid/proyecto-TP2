@@ -28,8 +28,8 @@ public class TrafficSimulator {
 	}
 	
 	public void reset() {
-		map = new RoadMap();
-		eventList = new SortedArrayList<>();
+		map = new RoadMap(); //TODO revisar si hay que llamar a esta funcion map.reset();
+		eventList.clear();
 		time = 0;
 	}
 	

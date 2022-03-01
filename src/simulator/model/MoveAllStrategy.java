@@ -1,8 +1,20 @@
 package simulator.model;
 
-public class MoveAllStrategy {
-	//devuelve la lista de todos los vehículos que están en q (no devuelve
-	//q). El orden debe ser el mismo que cuando se itera q.
+import java.util.ArrayList;
+import java.util.List;
+
+public class MoveAllStrategy implements DequeuingStrategy{
+
+	@Override
+	public List<Vehicle> dequeu(List<Vehicle> q) {
+		List<Vehicle> g = new ArrayList<>();
+		for (Vehicle vehicle : q) {
+			g.add(vehicle);
+		}
+		//TODO sospecho que se puede devolver una nueva lista directamente pero no sé como
+		return g;
+	}
+	
 
 
 }
