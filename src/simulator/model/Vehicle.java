@@ -2,6 +2,7 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Comparator;
 import org.json.JSONObject;
 
 
@@ -52,7 +53,7 @@ public class Vehicle extends SimulatedObject{
 		//calcula contaminacion...
 		//si localizacion actual...
 	}
-
+	
 	@Override
 	public JSONObject report() {
 		JSONObject reportJSON = new JSONObject();
@@ -148,5 +149,16 @@ public class Vehicle extends SimulatedObject{
 	public Road getRoad() {
 		return road;
 	}
-	
+public static class VehicleComparator implements Comparator<Vehicle> {
+
+	@Override
+	public int compare(Vehicle o1, Vehicle o2) {
+		if(o1.getLocation() > o2.getLocation())
+		return 0;
+		else if(o1.getLocation() == o2.getLocation())
+			return -1;
+		return 1;
+	}
+		
+	}
 }

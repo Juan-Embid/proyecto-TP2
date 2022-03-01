@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import simulator.misc.SortedArrayList;
+
 public class TrafficSimulator {
 	private RoadMap map;
 	private List<Event> eventList;
 	private int time;
-	private List<Road> roads; //TODO creo que hay que anadirlo
-	private List<Vehicle> vehicles; //TODO creo que hay que anadirlo
 	private List<Junction> junctions;
 	public void addEvent(Event e) {
 		
@@ -23,18 +23,13 @@ public class TrafficSimulator {
 		}
 		for (Junction junction : junctions)
 			junction.advance(time);
-		for (Road road : roads)
+		for (Road road : map.getRoads())
 			road.advance(time);
 	}
 	
 	public void reset() {
-		for (Road road : roads) {
-			vehicles = road.getVehicles();
-			for (Vehicle vehicle : vehicles)
-					road.exit(vehicle);
-		}
-		for (Event event : events)
-			//vaciar lista de eventos
+		map = new RoadMap();
+		eventList = new SortedArrayList<>();
 		time = 0;
 	}
 	

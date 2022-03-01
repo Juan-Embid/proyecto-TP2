@@ -1,13 +1,14 @@
 package simulator.model;
 import java.util.Collections;
+import simulator.model.Vehicle.VehicleComparator;
 import java.util.List;
 import org.json.JSONObject;
 
 abstract class Road extends SimulatedObject{
-	private Junction originCross, destinyCross;
-	private int length, maxVelocity, currentVelocity, pollutionAlert, totalPollution, speedLimit;
-	private Weather enviCondition;
-	private List<Vehicle> vehicles;
+	Junction originCross, destinyCross;
+	int length, maxVelocity, currentVelocity, pollutionAlert, totalPollution, speedLimit;
+	Weather enviCondition;
+	List<Vehicle> vehicles;
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
@@ -35,6 +36,7 @@ abstract class Road extends SimulatedObject{
 			vehicle.advance(time);
 		}
 		//TODO ORDENAR LOS COCHES POR LOCALIZACION
+		Collections.sort(vehicles, new VehicleComparator());
 	}
 
 	@Override

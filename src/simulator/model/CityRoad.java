@@ -8,16 +8,23 @@ public class CityRoad extends Road{
 
 	@Override
 	void reduceTotalContamination() {
-		
+		if(enviCondition == Weather.STORM || enviCondition == Weather.WINDY)
+			totalPollution -= 10;
+		else
+			totalPollution -=2;
+		if(totalPollution < 0)
+			totalPollution = 0;
 	}
 
 	@Override
 	void updateSpeedLimit() {
-		
+		speedLimit = maxVelocity;
 	}
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
+		int temp = ((11 - v.getContClass()) * speedLimit) / 11;
+		v.setSpeed(temp);
 		return 0;
 	}
 
