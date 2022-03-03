@@ -6,7 +6,6 @@ import java.util.List;
 public class NewVehicleEvent extends Event {
 	
 	private List<String> itinerary;
-	private  Vehicle vehicle;
 	private int maxSpeed, contClass;
 	private String id;
 

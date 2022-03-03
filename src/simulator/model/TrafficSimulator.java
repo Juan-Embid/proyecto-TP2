@@ -11,8 +11,13 @@ public class TrafficSimulator {
 	private List<Event> eventList;
 	private int time;
 	private List<Junction> junctions;
+	
+	public TrafficSimulator() {
+		reset();
+	}
+	
 	public void addEvent(Event e) {
-		
+		eventList.add(e);
 	}
 	
 	public void advance() {
@@ -27,6 +32,8 @@ public class TrafficSimulator {
 			road.advance(time);
 	}
 	
+	
+
 	public void reset() {
 		map = new RoadMap(); //TODO revisar si hay que llamar a esta funcion map.reset();
 		eventList.clear();

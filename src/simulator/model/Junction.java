@@ -38,15 +38,24 @@ public class Junction extends SimulatedObject{
 	
 	@Override
 	void advance(int time) {
+		//Strategy
 		if(greenLight != -1 && !queue.isEmpty()) {
-			
+			List<Vehicle> vehicles2 = queue.get(greenLight);
+			if(!vehicles2.isEmpty()) {
+				List<Vehicle> movedvehicles = extractElements.dequeu(vehicles2);
+				for (Vehicle vehicle : movedvehicles) {
+					vehicle.moveToNextRoad();
+					vehicles2.remove(vehicle);
+				}
+			}
+		int index = lightChangeStrategy.chooseNextGreen(roadInList, queue, greenLight, lastLightSwitch, time);
+		if(index != greenLight) {
+			greenLight = index;
+			lastLightSwitch = time;
+			}
 		}
+		//Light
 			
-	}
-
-	@Override
-	public JSONObject report() {
-		return null;
 	}
 
 	void addIncommingRoad(Road r) {
@@ -79,13 +88,16 @@ public class Junction extends SimulatedObject{
 	@Override
 	public JSONObject report() {
 		JSONObject reportJSON = new JSONObject();
+		JSONArray reportQueueJSON = new JSONArray();
 		
 		reportJSON.put("id", _id);
 		if (greenLight == -1)
 			reportJSON.put("green",  "none");
 		else
 			reportJSON.put("green", roadInList.get(greenLight).getId());
-		reportJSON.put("queues", reportQueue());
+		for (Road road : roadInList) 
+			reportQueueJSON.put(reportRoad(road));
+		reportJSON.put("queues", reportQueueJSON);
 		return reportJSON;	
 	}
 	
@@ -99,15 +111,6 @@ public class Junction extends SimulatedObject{
 		reportRoadJSON.put("vehicles", vehicles);
 		
 		return reportRoadJSON;
-	}
-	
-	private JSONArray reportQueue() {
-		JSONArray reportQueueJSON = new JSONArray();
-		
-		for (Road road : roadInList) 
-			reportQueueJSON.put(reportRoad(road));
-			
-		return reportQueueJSON;
 	}
 	
 }

@@ -3,18 +3,17 @@ package simulator.factories;
 import org.json.JSONObject;
 
 import simulator.model.LightSwitchStrategy;
+import simulator.model.MostCrowdedStrategy;
 
 public class MostCrowdedStrategyBuilder extends Builder<LightSwitchStrategy> {
 
-	MostCrowdedStrategyBuilder(String type) {
-		super(type);
-		// TODO Auto-generated constructor stub
+	MostCrowdedStrategyBuilder() {
+		super("most_crowded_lss");
 	}
 
 	@Override
 	protected LightSwitchStrategy createTheInstance(JSONObject data) {
-		// TODO Auto-generated method stub
-		return null;
+		return new MostCrowdedStrategy(data.has("timeslot") ? data.getInt("timeslot") : 1 );
 	}
 
 }

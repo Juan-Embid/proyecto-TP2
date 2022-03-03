@@ -4,15 +4,21 @@ import simulator.misc.Pair;
 
 public class NewSetContClassEvent extends Event {
 	
+	private List<Pair<String, Integer>> cs;
+	
 	public NewSetContClassEvent(int time, List<Pair<String, Integer>> cs) {
 		super(time);
-		// ...
-		}
+		if (cs.isEmpty())
+			throw new IllegalArgumentException("Error: list is empty");
+		this.cs = cs;
+	}
 	
 	@Override
 	void execute(RoadMap map) {
-		// TODO Auto-generated method stub
-
+		for (Pair<String, Integer> c : cs) {
+			if(map.getRoad(c.getFirst()) == null)
+				throw new IllegalArgumentException("Road doesn't exist in the RoadMap");
+			map.getRoad(c.getFirst()).addContamination(c.getSecond());
+		}		
 	}
-
 }
