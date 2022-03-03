@@ -13,10 +13,10 @@ public class Junction extends SimulatedObject{
 	private Map<Road,List<Vehicle>> roadQueue;
 	private List<List<Vehicle>> queue;
 	private int greenLight, lastLightSwitch, x, y;
-	private LightSwitchStrategy lightChangeStrategy;
+	private LightSwitchingStrategy lightChangeStrategy;
 	private DequeuingStrategy extractElements;
 
-	Junction(String id, LightSwitchStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
+	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
 		
 		if(lsStrategy == null || dqStrategy == null || xCoor < 0 || yCoor < 0)
@@ -41,7 +41,7 @@ public class Junction extends SimulatedObject{
 		if(greenLight != -1 && !queue.isEmpty()) {
 			List<Vehicle> vehicles2 = queue.get(greenLight);
 			if(!vehicles2.isEmpty()) {
-				List<Vehicle> movedvehicles = extractElements.dequeu(vehicles2);
+				List<Vehicle> movedvehicles = extractElements.dequeue(vehicles2);
 				for (Vehicle vehicle : movedvehicles) {
 					vehicle.moveToNextRoad();
 					vehicles2.remove(vehicle);

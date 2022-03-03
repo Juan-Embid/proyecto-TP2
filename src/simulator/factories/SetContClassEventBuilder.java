@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import simulator.misc.Pair;
 import simulator.model.Event;
-import simulator.model.NewSetContClassEvent;
+import simulator.model.SetContClassEvent;
 
 public class SetContClassEventBuilder extends Builder<Event>{
 
@@ -22,14 +22,14 @@ public class SetContClassEventBuilder extends Builder<Event>{
 		JSONArray a = data.getJSONArray("info");
 		List<Pair<String, Integer>> in = new ArrayList<>();
 		String temp;
-		Integer temp2;
+		int temp2;
 		for(int i = 0; i < a.length(); i++) {
 			 temp = a.getJSONObject(i).getString("vehicle");
-			temp2 = Integer.valueOf(a.getJSONObject(i).getString("class").toUpperCase());
+			temp2 = Integer.valueOf(a.getJSONObject(i).getInt("class"));
 			in.add(new Pair<String, Integer> (temp, temp2));
 		}
 
-		return new NewSetContClassEvent(time, in);
+		return new SetContClassEvent(time, in);
 	}
 
 }

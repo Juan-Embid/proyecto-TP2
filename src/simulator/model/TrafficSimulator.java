@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import simulator.misc.SortedArrayList;
+
 
 public class TrafficSimulator {
 	private RoadMap map;
@@ -35,7 +37,7 @@ public class TrafficSimulator {
 
 	public void reset() {
 		map = new RoadMap(); //TODO revisar si hay que llamar a esta funcion map.reset();
-		eventList.clear();
+		eventList = new SortedArrayList<>();
 		time = 0;
 	}
 	

@@ -99,11 +99,11 @@ abstract class Road extends SimulatedObject{
 		return enviCondition;
 	}
 	
-	public int getPollutionAlert() {
+	public int getContLimit() {
 		return pollutionAlert;
 	}
 	
-	public int getMaxVelocity() {
+	public int getMaxSpeed() {
 		return maxVelocity;
 	}
 	

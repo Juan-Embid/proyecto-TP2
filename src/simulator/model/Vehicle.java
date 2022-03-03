@@ -80,7 +80,7 @@ public class Vehicle extends SimulatedObject{
 		}
 	
 	
-	void setCentaminationClass(int c) {
+	void setContClass(int c) {
 		if(pollution < 0 || pollution > 10)
 			throw new IllegalArgumentException("Error: invalid argument");
 		pollution = c;

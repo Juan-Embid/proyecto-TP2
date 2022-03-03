@@ -4,10 +4,10 @@ public class NewJunctionEvent extends Event {
 	
 	private int xCoor, yCoor;
 	private String id;
-	private LightSwitchStrategy lsStrategy;
+	private LightSwitchingStrategy lsStrategy;
 	private DequeuingStrategy dqStrategy;
 
-	public NewJunctionEvent(int time, String id, LightSwitchStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
+	public NewJunctionEvent(int time, String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 			super(time);
 			this.xCoor = xCoor;
 			this.yCoor = yCoor;

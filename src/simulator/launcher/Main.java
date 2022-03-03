@@ -22,7 +22,7 @@ import simulator.control.Controller;
 import simulator.factories.*;
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
-import simulator.model.LightSwitchStrategy;
+import simulator.model.LightSwitchingStrategy;
 import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimulator;
 
@@ -119,10 +119,10 @@ dqbs);
 	}
 
 	private static void initFactories() {
-		List<Builder<LightSwitchStrategy>> lsbs = new ArrayList<>();
+		List<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
 		lsbs.add( new RoundRobinStrategyBuilder() );
 		lsbs.add( new MostCrowdedStrategyBuilder() );
-		Factory<LightSwitchStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
+		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
 		
 		List<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add( new MoveFirstStrategyBuilder() );
