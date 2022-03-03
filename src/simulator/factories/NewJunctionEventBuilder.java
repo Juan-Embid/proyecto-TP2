@@ -1,10 +1,12 @@
 package simulator.factories;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchStrategy;
+import simulator.model.NewJunctionEvent;
 
 public class NewJunctionEventBuilder extends Builder<Event> {
 
@@ -20,8 +22,11 @@ public class NewJunctionEventBuilder extends Builder<Event> {
 	@Override
 	protected Event createTheInstance(JSONObject data) {
 		int time = data.getInt("time");
-		
-		return null;
+		String id = data.getString("id");
+		JSONArray coor = data.getJSONArray("coor");
+		LightSwitchStrategy lsstrat = lsFactory.createInstance(data.getJSONObject("ls_stategy"));
+		DequeuingStrategy dqstrat = dqFactory.createInstance(data.getJSONObject("dq_stategy"));
+		return new NewJunctionEvent(time, id, lsstrat, dqstrat, coor.getInt(0), coor.getInt(1));
 	}
 
 }

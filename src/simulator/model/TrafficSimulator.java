@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import simulator.misc.SortedArrayList;
 
 public class TrafficSimulator {
 	private RoadMap map;
