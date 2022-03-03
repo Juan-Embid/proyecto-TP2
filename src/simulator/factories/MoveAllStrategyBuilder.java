@@ -7,7 +7,7 @@ import simulator.model.MoveAllStrategy;
 
 public class MoveAllStrategyBuilder extends Builder<DequeuingStrategy> {
 
-	MoveAllStrategyBuilder(String type) {
+		public MoveAllStrategyBuilder() {
 		super("most_all_dqs");
 	}
 

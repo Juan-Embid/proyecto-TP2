@@ -1,6 +1,15 @@
 package simulator.launcher;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -9,8 +18,13 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import simulator.factories.Factory;
+import simulator.control.Controller;
+import simulator.factories.*;
+import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
+import simulator.model.LightSwitchStrategy;
+import simulator.model.SetWeatherEvent;
+import simulator.model.TrafficSimulator;
 
 public class Main { //comentario
 
@@ -18,7 +32,7 @@ public class Main { //comentario
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
-
+	private static Integer _ticks = _timeLimitDefaultValue;;
 	/*List<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
 	lsbs.add( new RoundRobinStrategyBuilder() );
 	lsbs.add( new MostCrowdedStrategyBuilder() );
@@ -81,7 +95,8 @@ dqbs);
 	}
 
 	private static void parseTicksOption(CommandLine line) {
-		if(line.hasOption("t")) {}
+		if(line.hasOption("t")) 
+			_ticks =Integer.parseInt(line.getOptionValue("t"));
 	}
 	
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
@@ -104,13 +119,43 @@ dqbs);
 	}
 
 	private static void initFactories() {
-
-		// TODO complete this method to initialize _eventsFactory
-
+		List<Builder<LightSwitchStrategy>> lsbs = new ArrayList<>();
+		lsbs.add( new RoundRobinStrategyBuilder() );
+		lsbs.add( new MostCrowdedStrategyBuilder() );
+		Factory<LightSwitchStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
+		
+		List<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
+		dqbs.add( new MoveFirstStrategyBuilder() );
+		dqbs.add( new MoveAllStrategyBuilder() );
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+		
+		ArrayList<Builder<Event>> eventsBu = new ArrayList<>();
+		eventsBu.add(new NewCityRoadEventBuilder());
+		eventsBu.add(new NewInterCityRoadEventBuilder());
+		eventsBu.add(new NewVehicleEventBuilder());
+		eventsBu.add(new NewJunctionEventBuilder(lssFactory, dqsFactory));
+		eventsBu.add(new SetWeatherEventBuilder());
+		eventsBu.add(new SetContClassEventBuilder());
+		_eventsFactory = new BuilderBasedFactory<Event>(eventsBu);
 	}
 
 	private static void startBatchMode() throws IOException {
-		// TODO complete this method to start the simulation
+		TrafficSimulator simulator = new TrafficSimulator();
+		Controller control = new Controller(simulator, _eventsFactory);
+		OutputStream o;
+		try(InputStream in = new FileInputStream(new File(_inFile));){
+			control.loadEvents(in);
+			if(_outFile == null)
+				o = System.out;
+			else
+				o = new FileOutputStream(_outFile);
+			control.run(_ticks, o);
+			
+			in.close();
+			o.close();
+		}catch(FileNotFoundException e) {
+			throw new IOException("Input file not found");
+		}
 	}
 
 	private static void start(String[] args) throws IOException {
