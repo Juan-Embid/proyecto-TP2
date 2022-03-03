@@ -1,18 +1,25 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 
+
+
 public class RoadMap {
-	List<Junction> crossRoad;
-	List<Road> roads;
-	List<Vehicle> vehicles;
-	Map<String,Junction> crossMap;
-	Map<String,Road> roadMap;
-	Map<String,Vehicle> vehiclesMap;
+	List<Junction> crossRoad = new ArrayList<>();
+	List<Road> roads = new ArrayList<>();
+	List<Vehicle> vehicles = new ArrayList<>();
+	Map<String,Junction> crossMap = new HashMap<>();
+	Map<String,Road> roadMap = new HashMap<>();
+	Map<String,Vehicle> vehiclesMap = new HashMap<>();
 	
+	RoadMap(){
+		reset();
+	}
 	void addJunction(Junction j) {
 		if(crossMap.containsKey(j.getId()))
 			throw new IllegalArgumentException("Error: duplicated juntion");
@@ -72,15 +79,13 @@ public class RoadMap {
 	}
 	
 	void reset() {
-		crossMap.clear();
-		roadMap.clear();
-		vehiclesMap.clear();
-		crossRoad.clear();
-		roads.clear();
-		vehicles.clear();
-		/*crossRoad = new SortedArrayList<>();
-		roads = new SortedArrayList<>();
-		vehicles = new SortedArrayList<>();*/
+		crossRoad = new ArrayList<>();
+		roads = new ArrayList<>();
+		vehicles = new ArrayList<>();
+		crossMap = new HashMap<>();
+		roadMap = new HashMap<>();
+		vehiclesMap = new HashMap<>();
+		
 	}
 	
 	public JSONObject report() {

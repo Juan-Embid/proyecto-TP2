@@ -2,9 +2,9 @@ package simulator.model;
 
 public class InterCityRoad extends Road{
 
-	InterCityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length,
+	InterCityRoad(String id, Junction srcJunc, Junction destJunc, int length, int contLimit, int maxSpeed,
 			Weather weather) {
-		super(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
+		super(id, srcJunc, destJunc, length, contLimit, maxSpeed, weather);
 	}
 
 	@Override

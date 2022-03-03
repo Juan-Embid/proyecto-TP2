@@ -8,6 +8,6 @@ public class NewCityRoadEvent extends NewRoadEvent{
 
 	@Override
 	protected Road cityRoad() {
-		return new CityRoad(id, junSrc, junDest, maxSpeed, co2Limit, length, weather);
+		return new CityRoad(id, junSrc, junDest, length, co2Limit, maxSpeed, weather);
 	}
 }

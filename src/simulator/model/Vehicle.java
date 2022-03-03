@@ -91,7 +91,7 @@ public class Vehicle extends SimulatedObject{
 		if (status != VehicleStatus.PENDING && status != VehicleStatus.WAITING)
 			throw new IllegalArgumentException("Error: invalid Vehicle status");
 		//si acaba de empezar
-		if(index != 0)
+		if(road != null)
 		road.exit(this);
 		
 		currentSpeed = 0;
@@ -106,8 +106,9 @@ public class Vehicle extends SimulatedObject{
 		}else { //si no está pending
 			road = road.getDest().roadTo(road.getDest());
 		}
-		if(!road.equals(null)) {
+		if(road == null) {
 			status = VehicleStatus.TRAVELING;
+			road = itinerary.get(index).roadTo(itinerary.get(index+1));
 			road.enter(this);
 		}
 		index++;
@@ -153,11 +154,7 @@ public static class VehicleComparator implements Comparator<Vehicle> {
 
 	@Override
 	public int compare(Vehicle o1, Vehicle o2) {
-		if(o1.getLocation() > o2.getLocation())
-		return 0;
-		else if(o1.getLocation() == o2.getLocation())
-			return -1;
-		return 1;
+		return o2.getLocation() - o1.getLocation();
 	}
 		
 	}

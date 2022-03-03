@@ -1,4 +1,5 @@
 package simulator.model;
+import java.util.ArrayList;
 import java.util.Collections;
 import simulator.model.Vehicle.VehicleComparator;
 import java.util.List;
@@ -10,11 +11,12 @@ abstract class Road extends SimulatedObject{
 	Weather enviCondition;
 	List<Vehicle> vehicles;
 
-	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
+	Road(String id, Junction srcJunc, Junction destJunc, int length, int contLimit, int maxSpeed, Weather weather) {
 		super(id);
-		if(maxVelocity < 0 || contLimit < 0 || length < 0 || srcJunc == null || destJunc == null || weather == null)
+		if(maxSpeed < 0 || contLimit < 0 || length < 0 || srcJunc == null || destJunc == null || weather == null)
 			throw new IllegalArgumentException("Argument(s) invalids");
 		destinyCross = destJunc;
+		vehicles = new ArrayList<>();
 		originCross = srcJunc;
 		maxVelocity = maxSpeed;
 		speedLimit = maxSpeed;
@@ -32,22 +34,24 @@ abstract class Road extends SimulatedObject{
 		reduceTotalContamination();
 		updateSpeedLimit();
 		for (Vehicle vehicle : vehicles) {
-			vehicle.setSpeed(calculateVehicleSpeed(vehicle));
+			calculateVehicleSpeed(vehicle);
 			vehicle.advance(time);
 		}
-		//TODO ORDENAR LOS COCHES POR LOCALIZACION
 		Collections.sort(vehicles, new VehicleComparator());
 	}
 
 	@Override
 	public JSONObject report() {
 		JSONObject reportJSON = new JSONObject();
-		
+		List<String> test = new ArrayList<>();
 		reportJSON.put("id", _id);
 		reportJSON.put("speedlimit", maxVelocity);
 		reportJSON.put("weather", enviCondition);
 		reportJSON.put("co2", totalPollution);
-		reportJSON.put("vehicles", vehicles);
+		for (Vehicle vehicle : vehicles) {
+			test.add(vehicle.getId());
+		}
+		reportJSON.put("vehicles", test);
 
 		return reportJSON;
 	}
