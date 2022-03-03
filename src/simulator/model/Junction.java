@@ -58,7 +58,7 @@ public class Junction extends SimulatedObject{
 	}
 
 	void addIncommingRoad(Road r) {
-		if(r.destinyCross == this)
+		if(r.destinyCross != this)
 			throw new IllegalArgumentException("Error: This road is invalid");
 		
 		roadInList.add(r);

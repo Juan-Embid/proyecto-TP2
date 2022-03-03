@@ -12,7 +12,7 @@ abstract class Road extends SimulatedObject{
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
-		if(maxVelocity < 0 || pollutionAlert < 0 || length < 0 || originCross == null || destinyCross == null || weather == null)
+		if(maxVelocity < 0 || contLimit < 0 || length < 0 || srcJunc == null || destJunc == null || weather == null)
 			throw new IllegalArgumentException("Argument(s) invalids");
 		destinyCross = destJunc;
 		originCross = srcJunc;
