@@ -1,20 +1,35 @@
 package simulator.factories;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import simulator.misc.Pair;
 import simulator.model.Event;
+import simulator.model.NewSetContClassEvent;
 
 public class SetContClassEventBuilder extends Builder<Event>{
 
-	SetContClassEventBuilder(String type) {
-		super(type);
-		// TODO Auto-generated constructor stub
+	SetContClassEventBuilder() {
+		super("set_cont_class");
 	}
 
 	@Override
 	protected Event createTheInstance(JSONObject data) {
-		// TODO Auto-generated method stub
-		return null;
+		int time = data.getInt("time");
+		JSONArray a = data.getJSONArray("info");
+		List<Pair<String, Integer>> in = new ArrayList<>();
+		String temp;
+		Integer temp2;
+		for(int i = 0; i < a.length(); i++) {
+			 temp = a.getJSONObject(i).getString("vehicle");
+			temp2 = Integer.valueOf(a.getJSONObject(i).getString("class").toUpperCase());
+			in.add(new Pair<String, Integer> (temp, temp2));
+		}
+
+		return new NewSetContClassEvent(time, in);
 	}
 
 }
