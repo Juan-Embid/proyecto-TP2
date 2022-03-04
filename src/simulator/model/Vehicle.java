@@ -97,7 +97,11 @@ public class Vehicle extends SimulatedObject{
 		currentSpeed = 0;
 		location = 0;
 		//si ha acabado
-		if(itinerary.size() -1 == index) {
+		if(road == null) {
+			status = VehicleStatus.TRAVELING;
+			road = itinerary.get(index).roadTo(itinerary.get(index+1));
+			road.enter(this);
+		}else if(itinerary.size() -1 == index) {
 			status = VehicleStatus.ARRIVED;
 			road = null;
 		} //Si está pending
@@ -106,11 +110,7 @@ public class Vehicle extends SimulatedObject{
 		}else { //si no está pending
 			road = road.getDest().roadTo(road.getDest());
 		}
-		if(road == null) {
-			status = VehicleStatus.TRAVELING;
-			road = itinerary.get(index).roadTo(itinerary.get(index+1));
-			road.enter(this);
-		}
+		
 		index++;
 	}
 	

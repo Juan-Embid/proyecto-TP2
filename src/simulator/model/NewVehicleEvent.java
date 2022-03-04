@@ -27,8 +27,9 @@ public class NewVehicleEvent extends Event {
 			junctions.add(map.getJunction(itinerario));
 		
 		Vehicle newVehicle = new Vehicle(id, maxSpeed, contClass, junctions);
-		map.addVehicle(newVehicle);
 		newVehicle.moveToNextRoad();
+		map.addVehicle(newVehicle);
+		
 	}
 	
 	

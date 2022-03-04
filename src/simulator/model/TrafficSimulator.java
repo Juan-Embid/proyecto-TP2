@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -23,10 +24,12 @@ public class TrafficSimulator {
 	
 	public void advance() {
 		time++;
-		for (int i = 0; i < eventList.size(); i++) {
-			if (time == eventList.get(i).getTime())
-				eventList.get(i).execute(map);	
+		while(!eventList.isEmpty()) {
+			if (time == eventList.get(0).getTime()) {
+				eventList.get(0).execute(map);	
+			eventList.remove(0);}
 		}
+		
 		for (Junction junction : junctions)
 			junction.advance(time);
 		for (Road road : map.getRoads())
@@ -36,8 +39,9 @@ public class TrafficSimulator {
 	
 
 	public void reset() {
-		map = new RoadMap(); //TODO revisar si hay que llamar a esta funcion map.reset();
+		map = new RoadMap();
 		eventList = new SortedArrayList<>();
+		junctions = new ArrayList<>();
 		time = 0;
 	}
 	

@@ -10,12 +10,12 @@ import org.json.JSONObject;
 
 
 public class RoadMap {
-	List<Junction> crossRoad = new ArrayList<>();
-	List<Road> roads = new ArrayList<>();
-	List<Vehicle> vehicles = new ArrayList<>();
-	Map<String,Junction> crossMap = new HashMap<>();
-	Map<String,Road> roadMap = new HashMap<>();
-	Map<String,Vehicle> vehiclesMap = new HashMap<>();
+	List<Junction> crossRoad;
+	List<Road> roads;
+	List<Vehicle> vehicles;
+	Map<String,Junction> crossMap;
+	Map<String,Road> roadMap;
+	Map<String,Vehicle> vehiclesMap;
 	
 	RoadMap(){
 		reset();
