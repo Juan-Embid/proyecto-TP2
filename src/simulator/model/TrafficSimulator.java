@@ -12,10 +12,11 @@ public class TrafficSimulator {
 	private RoadMap map;
 	private List<Event> eventList;
 	private int time;
-	private List<Junction> junctions;
 	
 	public TrafficSimulator() {
-		reset();
+		map = new RoadMap();
+		eventList = new SortedArrayList<Event>();
+		time = 1;
 	}
 	
 	public void addEvent(Event e) {
@@ -34,18 +35,15 @@ public class TrafficSimulator {
 		}
 		eventList.removeAll(aux);
 
-		for (Junction junction : junctions)
+		for (Junction junction : map.getJunctions())
 			junction.advance(time);
 		for (Road road : map.getRoads())
 			road.advance(time);
 	}
 	
-	
-
 	public void reset() {
-		map = new RoadMap();
-		eventList = new SortedArrayList<Event>();
-		junctions = new ArrayList<>();
+		map.reset();
+		eventList.clear();
 		time = 0;
 	}
 	
@@ -57,5 +55,4 @@ public class TrafficSimulator {
 
 		return reportJSON;
 	}
-	
 }
