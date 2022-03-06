@@ -11,15 +11,10 @@ public class SetWeatherEvent extends Event {
 	public SetWeatherEvent(int time, List<Pair<String,Weather>> ws) {
 		super(time);
 		
-		/*for (int i = 0; i < ws.size(); i++) {
-			if (ws.get(i) == null)
-				throw new IllegalArgumentException("Error: ws is empty");
-			}*/
 		if(ws.isEmpty())
 			throw new IllegalArgumentException("Error: ws is empty");
 		this.ws = ws;
 		}
-
 	
 	@Override
 	void execute(RoadMap map) {

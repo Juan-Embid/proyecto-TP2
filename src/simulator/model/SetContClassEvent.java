@@ -15,10 +15,10 @@ public class SetContClassEvent extends Event {
 	
 	@Override
 	void execute(RoadMap map) {
-		for (Pair<String, Integer> c : cs) {
-			if(map.getRoad(c.getFirst()) == null)
-				throw new IllegalArgumentException("Road doesn't exist in the RoadMap");
-			map.getRoad(c.getFirst()).addContamination(c.getSecond());
+		for (Pair<String, Integer> vehicle : cs) {
+			if(map.getVehicle(vehicle.getFirst()) == null)
+				throw new IllegalArgumentException("Vehicle doesn't exist in the RoadMap");
+			map.getVehicle(vehicle.getFirst()).setContClass(vehicle.getSecond());
 		}		
 	}
 }
