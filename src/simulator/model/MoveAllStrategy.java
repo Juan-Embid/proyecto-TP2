@@ -11,10 +11,6 @@ public class MoveAllStrategy implements DequeuingStrategy{
 		for (Vehicle vehicle : q) {
 			g.add(vehicle);
 		}
-		//TODO sospecho que se puede devolver una nueva lista directamente pero no sé como
 		return g;
 	}
-	
-
-
 }

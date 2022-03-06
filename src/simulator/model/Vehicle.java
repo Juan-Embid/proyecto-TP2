@@ -25,7 +25,6 @@ public class Vehicle extends SimulatedObject{
 		this.totalDistance = 0;
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		this.status = VehicleStatus.PENDING;
-		this.road = null;
 		this.index = 0;
 		
 	}
@@ -47,7 +46,6 @@ public class Vehicle extends SimulatedObject{
 				status = VehicleStatus.WAITING;
 				currentSpeed = 0;
 			}
-			
 		}
 		//actualilza localizacion...
 		//calcula contaminacion...

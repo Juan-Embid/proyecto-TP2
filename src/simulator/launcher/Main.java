@@ -33,21 +33,6 @@ public class Main { //comentario
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
 	private static Integer _ticks = _timeLimitDefaultValue;;
-	/*List<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
-	lsbs.add( new RoundRobinStrategyBuilder() );
-	lsbs.add( new MostCrowdedStrategyBuilder() );
-	Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory
-	<>(lsbs);
-	FACTORÍAS!!!!
-	List<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
-dqbs.add( new MoveFirstStrategyBuilder() );
-dqbs.add( new MoveAllStrategyBuilder() );
-Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(
-dqbs);
-
-	*/
-
-	
 	
 	private static void parseArgs(String[] args) {
 
@@ -89,7 +74,7 @@ dqbs);
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator’s main loop (default\r\n" + 
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulatorï¿½s main loop (default\r\n" + 
 				"value is 10).").build());
 		return cmdLineOptions;
 	}

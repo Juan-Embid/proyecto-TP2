@@ -31,15 +31,12 @@ public class Controller {
 		for (int i = 0; i < e.length(); i++) {
 			trafficSimulator.addEvent(eventsFactory.createInstance(e.getJSONObject(i)));
 		}
-		}
+	}
 	
 	public void run(int n, OutputStream out) {
 		
 	}
 	public void reset() {
 		trafficSimulator.reset();
+		}
 	}
-	}
-	
-	
-

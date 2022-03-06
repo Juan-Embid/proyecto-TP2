@@ -17,16 +17,11 @@ public class NewVehicleEventBuilder extends Builder<Event> {
 
 	@Override
 	protected Event createTheInstance(JSONObject data) {
-		List<String> temp = new ArrayList<>();
-		int time = data.getInt("time");
-		String id = data.getString("id");
-		int maxspeed = data.getInt("maxspeed");
-		int clas = data.getInt("class");
+		List<String> temp = new ArrayList<String>();
 		JSONArray array = data.getJSONArray("itinerary");
-		for(int i = 0; i < array.length(); i++)
-			temp.add(array.getString(i));
-		
-		return new NewVehicleEvent(time, id, maxspeed, clas, temp);
+		for(int j = 0; j < array.length(); ++j) {
+			temp.add(array.getString(j));
+		}
+		return new NewVehicleEvent(data.getInt("time"), data.getString("id"), data.getInt("maxspeed"), data.getInt("class"), temp);
 	}
-
 }
