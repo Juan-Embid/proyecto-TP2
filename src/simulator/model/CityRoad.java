@@ -26,5 +26,4 @@ public class CityRoad extends Road{
 		v.setSpeed(temp);
 		return 0;
 	}
-
 }

@@ -8,13 +8,13 @@ import org.json.JSONObject;
 
 public class Vehicle extends SimulatedObject{
 	private List<Junction> itinerary;
-	private int maxSpeed, currentSpeed, location, pollution, totalPollution, totalDistance, index;
+	private int maxSpeed, currentSpeed, location, pollution, totalPollution, totalDistance, index = 0;
 	private VehicleStatus status;
 	private Road road;
 
 	Vehicle(String id, int maxSpeed, int pollution, List<Junction> itinerary) {
 		super(id); 
-		if (maxSpeed < 0 || pollution < 0 || pollution > 10 || itinerary.size() < 2)
+		if (maxSpeed <= 0 || pollution < 0 || pollution > 10 || itinerary.size() < 2)
 			throw new IllegalArgumentException("Error: invalid arguments");
 		
 		this.maxSpeed = maxSpeed;
@@ -25,7 +25,6 @@ public class Vehicle extends SimulatedObject{
 		this.totalDistance = 0;
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		this.status = VehicleStatus.PENDING;
-		this.index = 0;
 		
 	}
 
@@ -33,23 +32,19 @@ public class Vehicle extends SimulatedObject{
 	void advance(int time) {
 		if(status.equals(VehicleStatus.TRAVELING)) {
 			int previousLocation = location;
-			//a)
+			
 			location = Math.min(location + currentSpeed, road.getLength());
 			totalDistance += (location - previousLocation);
-			//b)
-			int c = (location - previousLocation) * pollution;
-			totalPollution += c;
-			road.addContamination(c);
-			//c)
+			
+			totalPollution += ((location - previousLocation) * pollution);
+			road.addContamination((location - previousLocation) * pollution);
+			
 			if(location >= road.getLength()) {
-				road.getDest().enter(this);;
 				status = VehicleStatus.WAITING;
 				currentSpeed = 0;
+				road.getDest().enter(this);
 			}
 		}
-		//actualilza localizacion...
-		//calcula contaminacion...
-		//si localizacion actual...
 	}
 	
 	@Override
@@ -73,41 +68,40 @@ public class Vehicle extends SimulatedObject{
 	void setSpeed(int s) {
 		if(s < 0) 
 			throw new IllegalArgumentException("Error: invalid argument");
-		currentSpeed = Math.min(maxSpeed, s);
+		if (status == VehicleStatus.TRAVELING)
+			currentSpeed = Math.min(maxSpeed, s);
 	}
 	
 	void setContClass(int c) {
-		if(pollution < 0 || pollution > 10)
+		if(c < 0 || c > 10)
 			throw new IllegalArgumentException("Error: invalid argument");
 		pollution = c;
 	}
 	
 	void moveToNextRoad() {
+		currentSpeed = 0;
+		location = 0;
 		
 		if (status != VehicleStatus.PENDING && status != VehicleStatus.WAITING)
 			throw new IllegalArgumentException("Error: invalid Vehicle status");
-		//si acaba de empezar
-		if(road != null)
-		road.exit(this);
 		
-		currentSpeed = 0;
-		location = 0;
-		//si ha acabado
-		if(road == null) {
+		if(status == VehicleStatus.PENDING) { //no ha empezado a conducir
+			road = itinerary.get(index).roadTo(itinerary.get(index + 1)); //TODO mirar si podemos poner index y si hay que poner un index + 1 en el segundo get()
 			status = VehicleStatus.TRAVELING;
-			road = itinerary.get(index).roadTo(itinerary.get(index+1));
+			index++;
 			road.enter(this);
-		}else if(itinerary.size() -1 == index) {
-			status = VehicleStatus.ARRIVED;
-			road = null;
-		} //Si est� pending
-		else if(status.equals(VehicleStatus.PENDING)) {
-			road = itinerary.get(index + 1).roadTo(itinerary.get(index));
-		}else { //si no est� pending
-			road = road.getDest().roadTo(road.getDest());
+		}else {
+			if (index + 1 == itinerary.size()) { //ha acabado el itinerario
+				status = VehicleStatus.ARRIVED;
+				road.exit(this);
+			} else { //está conduciendo
+				road.exit(this);
+				road = road.getDest().roadTo(itinerary.get(index + 1)); //mirar a ver si tengo que poner esto: road = road.getDest().roadTo(road.getDest());
+				status = VehicleStatus.TRAVELING;
+				index++;
+				road.enter(this);
+			}
 		}
-		
-		index++;
 	}
 	
 	private void setStatus() {
@@ -146,12 +140,11 @@ public class Vehicle extends SimulatedObject{
 	public Road getRoad() {
 		return road;
 	}
-public static class VehicleComparator implements Comparator<Vehicle> {
-
-	@Override
-	public int compare(Vehicle o1, Vehicle o2) {
-		return o2.getLocation() - o1.getLocation();
-	}
-		
+	
+	public static class VehicleComparator implements Comparator<Vehicle> {
+		@Override
+		public int compare(Vehicle o1, Vehicle o2) {
+			return o2.getLocation() - o1.getLocation();
+		}
 	}
 }
