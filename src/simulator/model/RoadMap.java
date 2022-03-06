@@ -41,13 +41,20 @@ public class RoadMap {
 	void addVehicle(Vehicle v) {
 		if(vehiclesMap.containsKey(v.getId()))
 			throw new IllegalArgumentException("Error: duplicated vehicle");
-		else if (vehiclesMap.containsKey(v.getRoad().getId()))
+		else if (!itineraryIsValid(v.getItinerary()))
 			throw new IllegalArgumentException("Error: itinerary not valid");
 		
 		vehicles.add(v);
 		vehiclesMap.put(v.getId(), v);
 	}
 	
+	private boolean itineraryIsValid(List<Junction> itinerary) {
+		for (Junction j : itinerary) {
+			if(!crossMap.containsValue(j))
+				return false;
+		}
+		return true;
+	}
 	public Junction getJunction(String id) {
 		if(crossMap.containsKey(id))
 			return crossMap.get(id);
