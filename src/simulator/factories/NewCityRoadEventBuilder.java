@@ -13,7 +13,4 @@ public class NewCityRoadEventBuilder extends NewRoadEventBuilder{
 	Event roadBuilder() {
 		return new NewCityRoadEvent(time, id, src, dest, length, co2Limit, maxSpeed, weather2);
 	}
-
-	
-
 }

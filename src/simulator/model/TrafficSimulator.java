@@ -24,12 +24,16 @@ public class TrafficSimulator {
 	
 	public void advance() {
 		time++;
-		while(!eventList.isEmpty()) {
-			if (time == eventList.get(0).getTime()) {
-				eventList.get(0).execute(map);	
-			eventList.remove(0);}
-		}
+		List<Event> aux = new ArrayList<>();
 		
+		for (Event e : eventList) {
+			if (time == e.getTime()) {
+				aux.add(e);
+				e.execute(map);
+			}
+		}
+		eventList.removeAll(aux);
+
 		for (Junction junction : junctions)
 			junction.advance(time);
 		for (Road road : map.getRoads())
@@ -40,7 +44,7 @@ public class TrafficSimulator {
 
 	public void reset() {
 		map = new RoadMap();
-		eventList = new SortedArrayList<>();
+		eventList = new SortedArrayList<Event>();
 		junctions = new ArrayList<>();
 		time = 0;
 	}

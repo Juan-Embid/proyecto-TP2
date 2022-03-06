@@ -65,7 +65,7 @@ public class Vehicle extends SimulatedObject{
 		reportJSON.put("class", pollution);
 		reportJSON.put("status", status);
 		
-		if (status != VehicleStatus.PENDING || status != VehicleStatus.ARRIVED) {
+		if (status != VehicleStatus.PENDING && status != VehicleStatus.ARRIVED) {
 			reportJSON.put("road", road.getId());
 			reportJSON.put("location", location);
 		}
@@ -75,10 +75,8 @@ public class Vehicle extends SimulatedObject{
 	void setSpeed(int s) {
 		if(s < 0) 
 			throw new IllegalArgumentException("Error: invalid argument");
-		
 		currentSpeed = Math.min(maxSpeed, s);
-		}
-	
+	}
 	
 	void setContClass(int c) {
 		if(pollution < 0 || pollution > 10)
@@ -104,10 +102,10 @@ public class Vehicle extends SimulatedObject{
 		}else if(itinerary.size() -1 == index) {
 			status = VehicleStatus.ARRIVED;
 			road = null;
-		} //Si está pending
+		} //Si estï¿½ pending
 		else if(status.equals(VehicleStatus.PENDING)) {
 			road = itinerary.get(index + 1).roadTo(itinerary.get(index));
-		}else { //si no está pending
+		}else { //si no estï¿½ pending
 			road = road.getDest().roadTo(road.getDest());
 		}
 		
