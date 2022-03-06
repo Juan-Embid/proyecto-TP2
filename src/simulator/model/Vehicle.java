@@ -56,7 +56,7 @@ public class Vehicle extends SimulatedObject{
 		reportJSON.put("distance", totalDistance);
 		reportJSON.put("co2", totalPollution);
 		reportJSON.put("class", pollution);
-		reportJSON.put("status", status);
+		reportJSON.put("status", status.toString());
 		
 		if (status != VehicleStatus.PENDING && status != VehicleStatus.ARRIVED) {
 			reportJSON.put("road", road.getId());

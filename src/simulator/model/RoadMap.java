@@ -49,12 +49,12 @@ public class RoadMap {
 	}
 	
 	private boolean itineraryIsValid(List<Junction> itinerary) {
-		for (Junction j : itinerary) {
+		for (Junction j : itinerary)
 			if(!crossMap.containsValue(j))
 				return false;
-		}
 		return true;
 	}
+	
 	public Junction getJunction(String id) {
 		if(crossMap.containsKey(id))
 			return crossMap.get(id);

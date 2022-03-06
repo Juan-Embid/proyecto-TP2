@@ -26,13 +26,13 @@ import simulator.model.LightSwitchingStrategy;
 import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimulator;
 
-public class Main { //comentario
+public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
-	private static Integer _ticks = _timeLimitDefaultValue;;
+	private static Integer _ticks = _timeLimitDefaultValue;
 	
 	private static void parseArgs(String[] args) {
 
@@ -71,17 +71,18 @@ public class Main { //comentario
 		Options cmdLineOptions = new Options();
 
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Events input file").build());
-		cmdLineOptions.addOption(
-				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator�s main loop (default\r\n" + 
-				"value is 10).").build());
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator�s main loop (default\r\n" + "value is 10).").build());
 		return cmdLineOptions;
 	}
 
 	private static void parseTicksOption(CommandLine line) {
-		if(line.hasOption("t")) 
-			_ticks =Integer.parseInt(line.getOptionValue("t"));
+		String aux = line.getOptionValue("t");
+		if (aux == null)
+			_ticks = _timeLimitDefaultValue;
+		else 
+			_ticks = Integer.parseInt(aux);
 	}
 	
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
@@ -149,20 +150,11 @@ public class Main { //comentario
 		startBatchMode();
 	}
 
-	// example command lines:
-	//
-	// -i resources/examples/ex1.json
-	// -i resources/examples/ex1.json -t 300
-	// -i resources/examples/ex1.json -o resources/tmp/ex1.out.json
-	// --help
-
 	public static void main(String[] args) {
 		try {
 			start(args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
