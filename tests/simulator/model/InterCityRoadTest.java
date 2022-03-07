@@ -141,13 +141,20 @@ class InterCityRoadTest {
 
 		String s = "{\"speedlimit\":100,\"co2\":0,\"weather\":\"SUNNY\",\"vehicles\":[\"v1\",\"v2\"],\"id\":\"r1\"}\n";
 
-		assertTrue(new JSONObject(s).similar(r1.report()));
-
+		JSONObject jo = new JSONObject(s);
+        JSONObject jo_aux = new JSONObject(jo.toString());
+        JSONObject report = r1.report();
+        JSONObject report_aux = new JSONObject(report.toString());
+        assertTrue(jo_aux.similar(report_aux));
+        
 		r1.advance(1);
 
 		s="{\"speedlimit\":100,\"co2\":350,\"weather\":\"SUNNY\",\"vehicles\":[\"v2\",\"v1\"],\"id\":\"r1\"}\n";
-		assertTrue(new JSONObject(s).similar(r1.report()));
-	}
+		JSONObject jo1 = new JSONObject(s);
+        JSONObject jo_aux1 = new JSONObject(jo1.toString());
+        JSONObject report1 = r1.report();
+        JSONObject report_aux1 = new JSONObject(report1.toString());
+        assertTrue(jo_aux1.similar(report_aux1));	}
 
 	@Test
 	void error_handling() {

@@ -127,8 +127,11 @@ class CityRoadTest {
 		r1.advance(1);
 
 		s = "{\"speedlimit\":100,\"co2\":266,\"weather\":\"SUNNY\",\"vehicles\":[\"v2\",\"v1\"],\"id\":\"r1\"}";
-		assertTrue(new JSONObject(s).similar(r1.report()));
-	}
+		JSONObject jo1 = new JSONObject(s);
+        JSONObject jo_aux1 = new JSONObject(jo1.toString());
+        JSONObject report1 = r1.report();
+        JSONObject report_aux1 = new JSONObject(report1.toString());
+        assertTrue(jo_aux1.similar(report_aux1));	}
 
 	// list of vehicles is returned as unmodifiable
 	@Test
