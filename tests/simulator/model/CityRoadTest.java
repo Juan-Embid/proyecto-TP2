@@ -117,8 +117,12 @@ class CityRoadTest {
 		v2.moveToNextRoad();
 
 		String s = "{\"speedlimit\":100,\"co2\":0,\"weather\":\"SUNNY\",\"vehicles\":[\"v1\",\"v2\"],\"id\":\"r1\"}";
-
-		assertTrue(new JSONObject(s).similar(r1.report()));
+		
+		JSONObject jo = new JSONObject(s);
+        JSONObject jo_aux = new JSONObject(jo.toString());
+        JSONObject report = r1.report();
+        JSONObject report_aux = new JSONObject(report.toString());
+        assertTrue(jo_aux.similar(report_aux));
 
 		r1.advance(1);
 

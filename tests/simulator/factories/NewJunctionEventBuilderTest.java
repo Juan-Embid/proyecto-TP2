@@ -45,8 +45,11 @@ class NewJunctionEventBuilderTest {
 
 		String s = "{\"time\":1,\"state\":{\"roads\":[],\"vehicles\":[],\"junctions\":[{\"green\":\"none\",\"queues\":[],\"id\":\"j1\"}]}}";
 
-		assertTrue(new JSONObject(s).similar(ts.report()));
-
+		JSONObject jo = new JSONObject(s);
+		JSONObject jo_aux = new JSONObject(jo.toString());
+		JSONObject report = ts.report();
+		JSONObject report_aux = new JSONObject(report.toString());
+		assertTrue(jo_aux.similar(report_aux));
 	}
 
 	@Test

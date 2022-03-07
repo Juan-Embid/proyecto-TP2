@@ -13,7 +13,7 @@ abstract class Road extends SimulatedObject{
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
-		if(maxSpeed < 0 || contLimit < 0 || length < 0 || srcJunc == null || destJunc == null || weather == null)
+		if(maxSpeed <= 0 || contLimit < 0 || length <= 0 || srcJunc == null || destJunc == null || weather == null)
 			throw new IllegalArgumentException("Argument(s) invalids");
 		destinyCross = destJunc;
 		vehicles = new ArrayList<>();
@@ -59,7 +59,7 @@ abstract class Road extends SimulatedObject{
 	public void enter(Vehicle v) {
 		if(v.getLocation() != 0 || v.getSpeed() != 0)
 			throw new IllegalArgumentException("Error: invalid Vehicle status");
-	vehicles.add(v);
+		vehicles.add(v);
 	}
 	
 	public void exit(Vehicle v) {

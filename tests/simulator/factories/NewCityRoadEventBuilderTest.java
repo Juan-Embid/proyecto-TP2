@@ -63,8 +63,11 @@ class NewCityRoadEventBuilderTest {
 
 		String s = "{\"time\":1,\"state\":{\"roads\":[{\"speedlimit\":120,\"co2\":0,\"weather\":\"SUNNY\",\"vehicles\":[],\"id\":\"r1\"}],\"vehicles\":[],\"junctions\":[{\"green\":\"none\",\"queues\":[],\"id\":\"j1\"},{\"green\":\"r1\",\"queues\":[{\"road\":\"r1\",\"vehicles\":[]}],\"id\":\"j2\"}]}}";
 
-		assertTrue(new JSONObject(s).similar(ts.report()));
-
+		JSONObject jo = new JSONObject(s);
+		JSONObject jo_aux = new JSONObject(jo.toString());
+		JSONObject report = ts.report();
+		JSONObject report_aux = new JSONObject(report.toString());
+		assertTrue(jo_aux.similar(report_aux));
 	}
 
 	@Test
