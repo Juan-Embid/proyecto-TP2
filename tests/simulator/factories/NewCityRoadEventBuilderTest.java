@@ -67,6 +67,8 @@ class NewCityRoadEventBuilderTest {
 		JSONObject jo_aux = new JSONObject(jo.toString());
 		JSONObject report = ts.report();
 		JSONObject report_aux = new JSONObject(report.toString());
+		System.out.println(s);
+		System.out.println(ts.report().toString());
 		assertTrue(jo_aux.similar(report_aux));
 	}
 

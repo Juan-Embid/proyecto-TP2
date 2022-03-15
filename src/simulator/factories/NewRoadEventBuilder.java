@@ -16,9 +16,9 @@ public abstract class NewRoadEventBuilder extends Builder<Event>{
 	@Override
 	protected Event createTheInstance(JSONObject data) {
 		time = data.getInt("time");
-		String id = data.getString("id");
-		String src = data.getString("src");
-		String dest = data.getString("dest");
+		id = data.getString("id");
+		src = data.getString("src");
+		dest = data.getString("dest");
 		length = data.getInt("length");
 		co2Limit = data.getInt("co2limit");
 		maxSpeed = data.getInt("maxspeed");

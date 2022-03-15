@@ -16,7 +16,7 @@ public class TrafficSimulator {
 	public TrafficSimulator() {
 		map = new RoadMap();
 		eventList = new SortedArrayList<Event>();
-		time = 1;
+		time = 0;
 	}
 	
 	public void addEvent(Event e) {

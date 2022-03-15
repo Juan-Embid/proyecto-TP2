@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -103,9 +105,20 @@ public class RoadMap {
 	public JSONObject report() {
 		JSONObject reportJSON = new JSONObject();
 		
-		reportJSON.put("junctions", crossRoad);
-		reportJSON.put("road", roads);
-		reportJSON.put("vehicles", vehicles);
+		JSONArray arr1 = new JSONArray();
+		for (Junction j : crossRoad)
+			arr1.put(j.report());
+		reportJSON.put("junctions", arr1);
+		
+		JSONArray arr2 = new JSONArray();
+		for (Road j : roads)
+			arr2.put(j.report());
+		reportJSON.put("roads", arr2);
+		
+		JSONArray arr3 = new JSONArray();
+		for (Vehicle j : vehicles)
+			arr3.put(j.report());
+		reportJSON.put("vehicles", arr3);
 
 		return reportJSON;
 	}

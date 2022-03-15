@@ -47,6 +47,8 @@ public class Junction extends SimulatedObject{
 					vehicles2.remove(vehicle);
 				}
 			}
+		}
+		
 		int index = lightChangeStrategy.chooseNextGreen(roadInList, queue, greenLight, lastLightSwitch, time);
 		if(index != greenLight) {
 			greenLight = index;
@@ -54,8 +56,6 @@ public class Junction extends SimulatedObject{
 			}
 		}
 		//Light
-			
-	}
 
 	void addIncommingRoad(Road r) {
 		if(r.destinyCross != this)

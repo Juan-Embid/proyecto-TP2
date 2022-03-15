@@ -16,34 +16,22 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy{
 		else if(currGreen == -1) {
 			return nextGreen(qs, 0);
 		}
-		else if(lastSwitchingTime < timeslot)
+		else if(currTime-lastSwitchingTime < timeslot)
 			return currGreen;
 		return nextGreen(qs, currGreen +1);
 	}
 	private int nextGreen(List<List<Vehicle>> qs, int beginning ) {
-		int max = 0, index = 0, beg = 0;
-		boolean finished = false, startagain = false;
-		
-		if(beginning != 0)
-			beg = beginning % qs.size();
-			
+		int max = 0, index = 0;
+					
 		//no empieza desde el principio
-		for(int i = beg; i < qs.size() && !finished; i++){
-			//cuando ya a vuelto a empezar tiene que revisar hasta que llega al anterior del que empezó en un inicio
-			if(startagain && i == beginning % qs.size() - 1)
-			finished = true;
+	for(int i = 0; i < qs.size(); i++){
 			
-			//va cogiendo la cola más larga
-			if(qs.get(i).size() > max) {
-				max = qs.get(i).size();
-				index = i;
+			//va cogiendo la cola mï¿½s larga
+			if(qs.get((beginning+i)%qs.size()).size() > max) {
+				max = qs.get((beginning+i)%qs.size()).size();
+				index = (beginning+i)%qs.size();
 			}
 			
-			//cuando llega a la última cola de coches empieza por el principio de esta
-			if(i == qs.size() - 1 && beg != 0) {
-				i = 0;
-				startagain = true;
-			}
 		}
 		return index;
 	}

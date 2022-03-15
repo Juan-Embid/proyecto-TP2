@@ -34,8 +34,12 @@ public class Controller {
 	}
 	
 	public void run(int n, OutputStream out) {
-		
+		//for con los tick y llamar a al report de advance o a los advance
+		for(int i = 0; i < n; i++) {
+			
+		}
 	}
+	
 	public void reset() {
 		trafficSimulator.reset();
 		}
