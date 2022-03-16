@@ -3,6 +3,7 @@ package simulator.control;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,10 +35,20 @@ public class Controller {
 	}
 	
 	public void run(int n, OutputStream out) {
-		//for con los tick y llamar a al report de advance o a los advance
+		//for con los tick y llamar a al report de advance
+		PrintStream p = new PrintStream(out);
+		p.println("{");
+		p.println("  \"states\": [");
+		
 		for(int i = 0; i < n; i++) {
-			
+			trafficSimulator.advance();
+			p.println(trafficSimulator.report().toString() + ",");
 		}
+		
+		trafficSimulator.advance();
+		p.println(trafficSimulator.report().toString());
+		p.println("]");
+		p.println("}");
 	}
 	
 	public void reset() {

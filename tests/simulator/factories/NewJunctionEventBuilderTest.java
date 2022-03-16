@@ -45,8 +45,6 @@ class NewJunctionEventBuilderTest {
 
 		String s = "{\"time\":1,\"state\":{\"roads\":[],\"vehicles\":[],\"junctions\":[{\"green\":\"none\",\"queues\":[],\"id\":\"j1\"}]}}";
 
-		System.out.println(s);
-		System.out.println(ts.report().toString());
 		JSONObject jo = new JSONObject(s);
 		JSONObject jo_aux = new JSONObject(jo.toString());
 		JSONObject report = ts.report();

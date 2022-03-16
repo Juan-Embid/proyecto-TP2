@@ -23,12 +23,18 @@ class MainTest {
 			
 			//currRunOutFile.delete();
 			
-			return jo1.similar(jo2);
+			JSONObject jo1_aux = new JSONObject(jo1.toString());
+			JSONObject jo2_aux = new JSONObject(jo2.toString());
+			
+			System.out.println(jo1_aux);
+			System.out.println(jo2_aux); //este creo que es el que está mal, al final del string
+			
+			return jo1_aux.similar(jo2_aux);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	@Test
 	void test_1() {
 		assertTrue(run("resources/examples/ex1.json", "resources/tmp/ex1.junit.out.json", "resources/examples/ex1.expout.json", 300));
