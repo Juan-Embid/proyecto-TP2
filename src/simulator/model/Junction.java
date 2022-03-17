@@ -62,8 +62,9 @@ public class Junction extends SimulatedObject{
 			throw new IllegalArgumentException("Error: This road is invalid");
 		
 		roadInList.add(r);
-		queue.add(new ArrayList<>());
-		roadQueue.put(r, new ArrayList<>());
+		ArrayList<Vehicle> l = new ArrayList<>();
+		queue.add(l);
+		roadQueue.put(r, l);
 		
 	}
 	

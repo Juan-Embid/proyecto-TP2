@@ -36,19 +36,21 @@ public class Controller {
 	
 	public void run(int n, OutputStream out) {
 		//for con los tick y llamar a al report de advance
-		PrintStream p = new PrintStream(out);
-		p.println("{");
-		p.println("  \"states\": [");
+		JSONArray states = new JSONArray();
+		PrintStream print = new PrintStream(out);
+		JSONObject aux = new JSONObject();
 		
 		for(int i = 0; i < n; i++) {
-			trafficSimulator.advance();
-			p.println(trafficSimulator.report().toString() + ",");
-		}
+			if(i == 125) 
+				trafficSimulator.advance();
+			else 
+				trafficSimulator.advance();
+
+			states.put(trafficSimulator.report());	
+				}
 		
-		trafficSimulator.advance();
-		p.println(trafficSimulator.report().toString());
-		p.println("]");
-		p.println("}");
+		aux.put("states",states);
+		print.println(aux.toString(3));
 	}
 	
 	public void reset() {

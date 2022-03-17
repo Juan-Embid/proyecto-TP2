@@ -63,10 +63,8 @@ abstract class Road extends SimulatedObject{
 	}
 	
 	public void exit(Vehicle v) {
-		for (Vehicle vehicle : vehicles) {
-			if(v == vehicle)
-				vehicles.remove(vehicle);
-		}
+		
+		vehicles.remove(v);
 	}
 	
 	 public void setWeather(Weather w) {
