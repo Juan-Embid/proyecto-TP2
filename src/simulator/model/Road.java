@@ -30,13 +30,8 @@ abstract class Road extends SimulatedObject{
 
 	@Override	
 	public void advance(int time) {
-		if(time == 144) {
-			reduceTotalContamination();
-			updateSpeedLimit();
-		}else {
 		reduceTotalContamination();
 		updateSpeedLimit();
-		}
 		for (Vehicle vehicle : vehicles) {
 			calculateVehicleSpeed(vehicle);
 			vehicle.advance(time);
