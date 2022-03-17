@@ -30,9 +30,13 @@ abstract class Road extends SimulatedObject{
 
 	@Override	
 	public void advance(int time) {
-		
+		if(time == 144) {
+			reduceTotalContamination();
+			updateSpeedLimit();
+		}else {
 		reduceTotalContamination();
 		updateSpeedLimit();
+		}
 		for (Vehicle vehicle : vehicles) {
 			calculateVehicleSpeed(vehicle);
 			vehicle.advance(time);
@@ -45,7 +49,7 @@ abstract class Road extends SimulatedObject{
 		JSONObject reportJSON = new JSONObject();
 		List<String> test = new ArrayList<>();
 		reportJSON.put("id", _id);
-		reportJSON.put("speedlimit", maxVelocity);
+		reportJSON.put("speedlimit", speedLimit);
 		reportJSON.put("weather", enviCondition);
 		reportJSON.put("co2", totalPollution);
 		for (Vehicle vehicle : vehicles) {
