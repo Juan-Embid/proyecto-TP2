@@ -8,11 +8,11 @@ import org.json.JSONObject;
 import simulator.misc.SortedArrayList;
 
 
-public class TrafficSimulator {
+public class TrafficSimulator implements Observable <TrafficSimObserver>{
 	private RoadMap map;
 	private List<Event> eventList;
 	private int time;
-	
+	private List<TrafficSimObserver> observer;
 	public TrafficSimulator() {
 		map = new RoadMap();
 		eventList = new SortedArrayList<Event>();
@@ -21,10 +21,17 @@ public class TrafficSimulator {
 	
 	public void addEvent(Event e) {
 		eventList.add(e);
+		for (TrafficSimObserver s : observer) {
+			s.onEventAdded(map, eventList, e, time);	
+		}
 	}
 	
 	public void advance() {
+		try {
 		time++;
+		for (TrafficSimObserver s : observer) {
+			s.onAdvanceStart(map, eventList, time);	
+		}
 		List<Event> aux = new ArrayList<>();
 		
 		for (Event e : eventList) {
@@ -39,12 +46,25 @@ public class TrafficSimulator {
 			junction.advance(time);
 		for (Road road : map.getRoads())
 			road.advance(time);
+		
+		for (TrafficSimObserver s : observer) {
+			s.onAdvanceEnd(map, eventList, time);	
+		}
+		}catch(Exception e) {
+			for (TrafficSimObserver s : observer) {
+				s.onError(e.getMessage());
+				throw e;
+			}	
+		}
 	}
 	
 	public void reset() {
 		map.reset();
 		eventList.clear();
 		time = 0;
+		for (TrafficSimObserver s : observer) {
+			s.onReset(map, eventList, time);	
+		}
 	}
 	
 	public JSONObject report() {
@@ -54,5 +74,19 @@ public class TrafficSimulator {
 		reportJSON.put("state", map.report());
 
 		return reportJSON;
+	}
+
+	@Override
+	public void addObserver(TrafficSimObserver o) {
+		// TODO Auto-generated method stub
+		for (TrafficSimObserver s : observer) {
+			s.onRegister(map, eventList, time);	
+		}
+	}
+
+	@Override
+	public void removeObserver(TrafficSimObserver o) {
+		// TODO Auto-generated method stub
+		
 	}
 }

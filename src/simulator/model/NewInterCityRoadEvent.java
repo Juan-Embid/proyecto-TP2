@@ -10,4 +10,11 @@ public class NewInterCityRoadEvent extends NewRoadEvent{
 	protected Road cityRoad() {
 		return new InterCityRoad(id, junSrc, junDest, maxSpeed, co2Limit, length, weather);
 	}
+	
+	@Override
+	public String toString() {
+	return "New Intercity Road '"+id+"'";
+	}
+
+	
 }

@@ -21,4 +21,6 @@ public class SetContClassEvent extends Event {
 			map.getVehicle(vehicle.getFirst()).setContClass(vehicle.getSecond());
 		}		
 	}
+	
+	
 }
