@@ -46,6 +46,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 	private void initGUI() {
 		_car = loadImage("car_front.png");
+		
 	}
 
 	public void paintComponent(Graphics graphics) {
