@@ -52,7 +52,7 @@ initGUI();
 		this.setVisible(true);
 		}
 	private JPanel createViewPanel(JComponent c, String title) {
-	JPanel p = new JPanel( new BorderLayout() );
+	JPanel p = new JPanel( new BoderLayout() );
 	// TODO add a framed border to p with title
 	p.add(new JScrollPane(c));
 	return p;
