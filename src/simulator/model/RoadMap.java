@@ -122,5 +122,8 @@ public class RoadMap {
 
 		return reportJSON;
 	}
+	public List<Vehicle> getVehilces() {
+		return vehicles;
+	}
 	
 }

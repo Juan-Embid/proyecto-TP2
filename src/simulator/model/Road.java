@@ -5,7 +5,7 @@ import simulator.model.Vehicle.VehicleComparator;
 import java.util.List;
 import org.json.JSONObject;
 
-abstract class Road extends SimulatedObject{
+public abstract class Road extends SimulatedObject{
 	Junction originCross, destinyCross;
 	int length, maxVelocity, currentVelocity, pollutionAlert, totalPollution, speedLimit;
 	Weather enviCondition;

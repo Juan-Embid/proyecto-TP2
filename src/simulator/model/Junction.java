@@ -1,4 +1,5 @@
 package simulator.model;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -113,4 +114,19 @@ public class Junction extends SimulatedObject{
 		return reportRoadJSON;
 	}
 	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+
+	public int getGreenLightIndex() {
+		return greenLight;
+	}
+
+	public List<Road> getInRoads() {
+		return roadInList;
+	}
 }

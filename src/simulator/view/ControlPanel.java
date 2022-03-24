@@ -17,7 +17,6 @@ import simulator.model.TrafficSimObserver;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver {
 
-		private boolean _stopped;
 		private JFileChooser file;
 		private JButton fileLoad;
 		private JButton changePollution;
@@ -27,6 +26,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private JSpinner ticks;
 		private JButton exit;
 		private Controller _ctrl;
+		private boolean _stopped;
+		
 		
 	ControlPanel(Controller controller){
 		_ctrl = controller;
