@@ -41,7 +41,7 @@ public class Controller {
 	}
 	
 	public void run(int n, OutputStream out) {
-		//for con los tick y llamar a al report de advance
+		//for con los tick y llamar al report de advance
 		JSONArray states = new JSONArray();
 		PrintStream print = new PrintStream(out);
 		JSONObject aux = new JSONObject();

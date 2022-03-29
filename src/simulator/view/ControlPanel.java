@@ -1,15 +1,22 @@
 package simulator.view;
 
-import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
+import javafx.stage.FileChooser;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.RoadMap;
@@ -28,7 +35,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private Controller _ctrl;
 		private boolean _stopped;
 		
-		
 	ControlPanel(Controller controller){
 		_ctrl = controller;
 		_stopped = false;
@@ -37,12 +43,48 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 
 	private void initGUI() {
-		// TODO Auto-generated method stub
-		ticks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1)); //value, min, max, step
-		JPanel mainPanel = new JPanel(new GridLayout());
-		mainPanel.setLayout(new GridLayout());
+		file = new JFileChooser("Select File");
+		file.setCurrentDirectory(new File("resorces/examples"));
+		fileLoad = new JButton("Load File", new ImageIcon("open.png"));
+		fileLoad.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int chosen = file.showOpenDialog(null);
+					if(chosen == JFileChooser.APPROVE_OPTION) {
+						File chosenFile = file.getSelectedFile();
+						_ctrl.reset();
+						_ctrl.loadEvents(new FileInputStream(chosenFile));
+					}
+				}catch(FileNotFoundException exception){
+				JOptionPane.showMessageDialog(null, 
+						"File not found",
+						"Search Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			}
+		});
+		this.add(fileLoad);
+		
+		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step
+		this.add(ticks);
+		
+		changePollution = new JButton("Pollution", new ImageIcon("co2class.png"));
+		this.add(changePollution);
+		
+		changeWeather = new JButton("Weather", new ImageIcon("weather.png"));
+		this.add(changeWeather);
+		
+		run = new JButton("Run", new ImageIcon("run.png"));
+		this.add(run);
+		
+		stop = new JButton("Stop", new ImageIcon("stop.png"));
+		this.add(stop);
+		
+		exit = new JButton("Exit", new ImageIcon("exit.png"));
+		this.add(exit);
 	}
-	
 	private JButton createButton() {
 		JButton button = new JButton();
 		return button;

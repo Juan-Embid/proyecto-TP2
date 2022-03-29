@@ -10,6 +10,8 @@ import simulator.model.TrafficSimObserver;
 
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver{
 
+	MapByRoadComponent(){}
+	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
