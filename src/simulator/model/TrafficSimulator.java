@@ -17,6 +17,7 @@ public class TrafficSimulator implements Observable <TrafficSimObserver>{
 		map = new RoadMap();
 		eventList = new SortedArrayList<Event>();
 		time = 0;
+		observer = new ArrayList<TrafficSimObserver>();
 	}
 	
 	public void addEvent(Event e) {

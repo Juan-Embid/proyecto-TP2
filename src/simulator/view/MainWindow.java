@@ -15,11 +15,12 @@ import simulator.control.Controller;
 
 public class MainWindow extends JFrame {
 private Controller _ctrl;
-public MainWindow(Controller ctrl) {
-super("Traffic Simulator");
-_ctrl = ctrl;
-initGUI();
-}
+
+	public MainWindow(Controller ctrl) {
+		super("Traffic Simulator");
+		_ctrl = ctrl;
+		initGUI();
+	}
 
 	private void initGUI() {
 		createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");

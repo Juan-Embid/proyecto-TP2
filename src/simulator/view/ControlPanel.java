@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -15,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+
+import org.json.JSONException;
 
 import javafx.stage.FileChooser;
 import simulator.control.Controller;
@@ -46,7 +49,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		file = new JFileChooser("Select File");
 		file.setCurrentDirectory(new File("resorces/examples"));
 		fileLoad = new JButton("Load File", new ImageIcon("open.png"));
-		fileLoad.addActionListener(new ActionListener() {
+		/*fileLoad.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -58,19 +61,16 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 						_ctrl.loadEvents(new FileInputStream(chosenFile));
 					}
 				}catch(FileNotFoundException exception){
-				JOptionPane.showMessageDialog(null, 
-						"File not found",
-						"Search Error",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "File not found", "Search Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
-			}
-		});
+		});*/
 		this.add(fileLoad);
 		
 		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step
 		this.add(ticks);
 		
-		changePollution = new JButton("Pollution", new ImageIcon("co2class.png"));
+		changePollution = createButton("Pullution", "co2class.png");
 		this.add(changePollution);
 		
 		changeWeather = new JButton("Weather", new ImageIcon("weather.png"));
@@ -85,10 +85,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		exit = new JButton("Exit", new ImageIcon("exit.png"));
 		this.add(exit);
 	}
-	private JButton createButton() {
-		JButton button = new JButton();
+	private JButton createButton(String phrase, String icon) {
+		JButton button = new JButton(phrase, new ImageIcon(icon));
 		return button;
-		//TODO terminar
 	}
 	
 	private void run_sim(int n) {
