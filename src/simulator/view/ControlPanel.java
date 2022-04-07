@@ -1,25 +1,14 @@
 package simulator.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
-
-import org.json.JSONException;
-
-import javafx.stage.FileChooser;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.RoadMap;
@@ -48,7 +37,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private void initGUI() {
 		file = new JFileChooser("Select File");
 		file.setCurrentDirectory(new File("resorces/examples"));
-		fileLoad = new JButton("Load File", new ImageIcon("open.png"));
+		fileLoad = createButton("Load File", "resources/icons/open.png");
 		/*fileLoad.addActionListener(new ActionListener() {
 			
 			@Override
@@ -70,19 +59,19 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step
 		this.add(ticks);
 		
-		changePollution = createButton("Pullution", "co2class.png");
+		changePollution = createButton("Pullution", "resources/icons/co2class.png");
 		this.add(changePollution);
 		
-		changeWeather = new JButton("Weather", new ImageIcon("weather.png"));
+		changeWeather = createButton("Weather", "resources/icons/weather.png");
 		this.add(changeWeather);
 		
-		run = new JButton("Run", new ImageIcon("run.png"));
+		run = createButton("Run", "resources/icons/run.png");
 		this.add(run);
 		
-		stop = new JButton("Stop", new ImageIcon("stop.png"));
+		stop = createButton("Stop", "resources/icons/stop.png");
 		this.add(stop);
 		
-		exit = new JButton("Exit", new ImageIcon("exit.png"));
+		exit = createButton("Exit", "resources/icons/exit.png");
 		this.add(exit);
 	}
 	private JButton createButton(String phrase, String icon) {

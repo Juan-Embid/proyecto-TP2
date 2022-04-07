@@ -68,16 +68,16 @@ private Controller _ctrl;
 		mapsPanel.add(mapByRoadView);
 		
 	
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 		
 	}
 	private JPanel createViewPanel(JComponent c, String title) {
-	JPanel p = new JPanel( new BorderLayout() );
-	// TODO add a framed border to p with title
-	
-	p.add(new JScrollPane(c));
-	return p;
+		JPanel p = new JPanel( new BorderLayout() );
+		// TODO add a framed border to p with title
+		
+		p.add(new JScrollPane(c));
+		return p;
 	}
 	}
