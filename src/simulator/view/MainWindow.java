@@ -46,15 +46,15 @@ private Controller _ctrl;
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsView);
 		
-		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel()), "Vehicles");
+		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
 		vehiclesView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(vehiclesView);
 		
-		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel()), "Roads");
+		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
 		roadsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(roadsView);
 		
-		JPanel junctionsView = createViewPanel(new JTable(new JunctionTableModel()), "Junctions");
+		JPanel junctionsView = createViewPanel(new JTable(new JunctionTableModel(_ctrl)), "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(junctionsView);
 		

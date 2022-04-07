@@ -1,12 +1,16 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
 import java.io.File;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import simulator.control.Controller;
@@ -25,6 +29,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private JSpinner ticks;
 		private JButton exit;
 		private Controller _ctrl;
+		private JLabel tickLabel;
 		private boolean _stopped;
 		
 	ControlPanel(Controller controller){
@@ -35,13 +40,18 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 
 	private void initGUI() {
+		this.setLayout(new BorderLayout());
+		JToolBar miTool = new JToolBar();
+		this.add(miTool, BorderLayout.NORTH);
+		
+		
 		file = new JFileChooser("Select File");
 		file.setCurrentDirectory(new File("resorces/examples"));
 		fileLoad = createButton("Load File", "resources/icons/open.png");
 		/*fileLoad.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {	
 				try {
 					int chosen = file.showOpenDialog(null);
 					if(chosen == JFileChooser.APPROVE_OPTION) {
@@ -54,28 +64,33 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				}
 			}
 		});*/
-		this.add(fileLoad);
-		
-		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step
-		this.add(ticks);
+		miTool.add(fileLoad);
+		miTool.addSeparator();
 		
 		changePollution = createButton("Pullution", "resources/icons/co2class.png");
-		this.add(changePollution);
-		
+		miTool.add(changePollution);
+
 		changeWeather = createButton("Weather", "resources/icons/weather.png");
-		this.add(changeWeather);
+		miTool.add(changeWeather);
 		
 		run = createButton("Run", "resources/icons/run.png");
-		this.add(run);
+		miTool.add(run);
 		
 		stop = createButton("Stop", "resources/icons/stop.png");
-		this.add(stop);
+		miTool.add(stop);
+		
+		tickLabel = new JLabel ("Ticks");
+		miTool.add(tickLabel);
+		
+		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step
+		miTool.add(ticks);
 		
 		exit = createButton("Exit", "resources/icons/exit.png");
-		this.add(exit);
+		miTool.add(exit);
 	}
 	private JButton createButton(String phrase, String icon) {
-		JButton button = new JButton(phrase, new ImageIcon(icon));
+		JButton button = new JButton(new ImageIcon(icon));
+		button.setToolTipText(phrase);
 		return button;
 	}
 	
