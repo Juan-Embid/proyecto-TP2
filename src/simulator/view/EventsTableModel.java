@@ -20,7 +20,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		_ctrl.addObserver(this);
 	}
 	
-	public String getcolumnsame(int i) {
+	public String getcolumnName(int i) {
 		return columns[i];
 	}
 	
