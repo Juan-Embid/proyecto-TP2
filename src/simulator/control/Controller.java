@@ -27,7 +27,7 @@ public class Controller {
 	this.eventsFactory = eventsFactory;
 	}
 	
-	public void loadEvents(InputStream in) throws JSONException, IOException {
+	public void loadEvents(InputStream in){
 		JSONObject jo = new JSONObject(new JSONTokener(in));
 		JSONArray e = jo.getJSONArray("events");
 		for (int i = 0; i < e.length(); i++) {
