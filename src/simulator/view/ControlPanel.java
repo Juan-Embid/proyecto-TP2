@@ -121,6 +121,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) { // TODO si el primer boton que se aprieta el el stop entonces se queda todo bloqueado, arreglarlo
 				pressed = true;
+				stop();
 				enableToolBar(!_stopped);
 			}
 		});
@@ -147,6 +148,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		});
 		miTool.add(exit);
 	}
+	
 	private JButton createButton(String phrase, String icon) {
 		JButton button = new JButton(new ImageIcon(icon));
 		button.setToolTipText(phrase);
@@ -183,9 +185,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		exit.setEnabled(_stopped);
 	}
 
-		private void stop() {
+	private void stop() {
 		_stopped = true;
-		}
+	}
 	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {		
