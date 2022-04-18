@@ -5,17 +5,18 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
@@ -24,6 +25,7 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
+@SuppressWarnings("serial") // para que me quite el warning del serial, que por alguna razon todo el rato sale
 public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 		private JFileChooser file;
@@ -50,38 +52,89 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		JToolBar miTool = new JToolBar();
 		this.add(miTool, BorderLayout.NORTH);
 		
-		//TODO borrar las dos lineas de abajo si no dan problemas
-		//file = new JFileChooser("Select File");
-		//file.setCurrentDirectory(new File("resorces/examples"));
+		// FILE BUTTON
+		file = new JFileChooser("File Chooser");
+		file.setCurrentDirectory(new File("resources/examples"));
 		fileLoad = createButton("Load File", "resources/icons/open.png");
+		fileLoad.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					int option = file.showOpenDialog(null);
+					if (option == JFileChooser.APPROVE_OPTION) {
+						File openFile = file.getSelectedFile();
+						_ctrl.reset();
+						_ctrl.loadEvents(new FileInputStream(openFile));
+					}
+				} catch (FileNotFoundException e) {
+					JOptionPane.showMessageDialog(getParent(),  e.getMessage(), "File not found", JOptionPane.WARNING_MESSAGE); // para que se ponga encima y centrado, mensaje, cabecera, tipo de mensaje
+
+				}
+			}
+		});
 		miTool.add(fileLoad);
 		miTool.addSeparator();
 		
+		// POLLUTION BUTTON
 		changePollution = createButton("Pullution", "resources/icons/co2class.png");
+		changePollution.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.print("probando");
+			}
+		});
 		miTool.add(changePollution);
 
+		// WHEATHER BUTTON
 		changeWeather = createButton("Weather", "resources/icons/weather.png");
+		changeWeather.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.print("probando");
+			}
+		});
 		miTool.add(changeWeather);
 		miTool.addSeparator();
 		
+		// RUN BUTTON 
 		run = createButton("Run", "resources/icons/run.png");
+		run.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.print("probando");
+			}
+		});
 		miTool.add(run);
 		
+		// STOP BUTTON 
 		stop = createButton("Stop", "resources/icons/stop.png");
+		stop.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.print("probando");
+			}
+		});
 		miTool.add(stop);
 		
+		//TICKS 
 		tickLabel = new JLabel ("Ticks: ");
 		miTool.add(tickLabel); 	
-		
 		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step
 		ticks.setMinimumSize(new Dimension(70, 35));
 		ticks.setMaximumSize(new Dimension(70, 35));
 		ticks.setPreferredSize(new Dimension(70, 35));
 		miTool.add(ticks);
 		miTool.addSeparator();
-
+		
+		// EXIT BUTTON
 		miTool.add(Box.createGlue());
 		exit = createButton("Exit", "resources/icons/exit.png");
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.print("probando");
+			}
+		});
 		miTool.add(exit);
 	}
 	private JButton createButton(String phrase, String icon) {
