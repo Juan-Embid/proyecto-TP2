@@ -1,15 +1,18 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 
 import simulator.control.Controller;
 
@@ -75,8 +78,8 @@ private Controller _ctrl;
 	}
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel( new BorderLayout() );
-		// TODO add a framed border to p with title
-		
+		Border b = BorderFactory.createLineBorder(Color.BLACK, 2);
+		p.setBorder(BorderFactory.createTitledBorder(b, title));
 		p.add(new JScrollPane(c));
 		return p;
 	}

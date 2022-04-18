@@ -27,7 +27,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 		return columnNames.length;
 	}
 	
-	public String getcolumnName(int i) {
+	public String getColumnName(int i) {
 		return columnNames[i];
 	}
 	
