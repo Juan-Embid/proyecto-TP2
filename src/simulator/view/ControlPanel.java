@@ -40,7 +40,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private JLabel tickLabel;
 		private boolean _stopped;
 		private boolean pressed;
-		private ChangeCO2ClassDialog pollutionDialog;
 		
 	ControlPanel(Controller controller){
 		_ctrl = controller;
@@ -79,25 +78,29 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		miTool.addSeparator();
 		
 		// POLLUTION BUTTON
-		changePollution = createButton("Pullution", "resources/icons/co2class.png");
+		changePollution = createButton("Pullution", "resources/icons/co2class.png"); // TODO terminarlo
 		changePollution.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-				} catch (Exception e){
 					
+				} catch (Exception e){
+					e.printStackTrace();
 				}
 			}
 		});
 		miTool.add(changePollution);
 
 		// WHEATHER BUTTON
-		changeWeather = createButton("Weather", "resources/icons/weather.png");
+		changeWeather = createButton("Weather", "resources/icons/weather.png"); // TODO terminarlo
 		changeWeather.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("probando");
-			}
+				try {
+					
+				} catch (Exception e){
+					e.printStackTrace();
+				}			}
 		});
 		miTool.add(changeWeather);
 		miTool.addSeparator();
@@ -110,7 +113,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				pressed = false;
 				enableToolBar(false);
 				_stopped = false;
-				run_sim((int) ticks.getValue());			}
+				run_sim((int) ticks.getValue());
+			}
 		});
 		miTool.add(run);
 		
@@ -118,7 +122,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		stop = createButton("Stop", "resources/icons/stop.png");
 		stop.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) { // TODO si el primer boton que se aprieta el el stop entonces se queda todo bloqueado, arreglarlo
+			public void actionPerformed(ActionEvent arg0) {
 				pressed = true;
 				stop();
 				enableToolBar(!_stopped);
