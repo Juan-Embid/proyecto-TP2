@@ -10,6 +10,7 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
+@SuppressWarnings("serial")
 public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver{
 
 	private List<Event> events;
@@ -83,7 +84,4 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	public void onError(String err) {
 		
 	}
-
-	
-	
 }

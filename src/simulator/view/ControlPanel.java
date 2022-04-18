@@ -127,7 +127,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		});
 		miTool.add(stop);
 		
-		//TICKS 
+		// TICKS 
 		tickLabel = new JLabel ("Ticks: ");
 		miTool.add(tickLabel); 	
 		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step

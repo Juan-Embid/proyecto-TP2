@@ -29,28 +29,28 @@ public class TrafficSimulator implements Observable <TrafficSimObserver>{
 	
 	public void advance() {
 		try {
-		time++;
-		for (TrafficSimObserver s : observer) {
-			s.onAdvanceStart(map, eventList, time);	
-		}
-		List<Event> aux = new ArrayList<>();
-		
-		for (Event e : eventList) {
-			if (time == e.getTime()) {
-				aux.add(e);
-				e.execute(map);
+			time++;
+			for (TrafficSimObserver s : observer) {
+				s.onAdvanceStart(map, eventList, time);	
 			}
-		}
-		eventList.removeAll(aux);
-
-		for (Junction junction : map.getJunctions())
-			junction.advance(time);
-		for (Road road : map.getRoads())
-			road.advance(time);
-		
-		for (TrafficSimObserver s : observer) {
-			s.onAdvanceEnd(map, eventList, time);	
-		}
+			List<Event> aux = new ArrayList<>();
+			
+			for (Event e : eventList) {
+				if (time == e.getTime()) {
+					aux.add(e);
+					e.execute(map);
+				}
+			}
+			eventList.removeAll(aux);
+	
+			for (Junction junction : map.getJunctions())
+				junction.advance(time);
+			for (Road road : map.getRoads())
+				road.advance(time);
+			
+			for (TrafficSimObserver s : observer) {
+				s.onAdvanceEnd(map, eventList, time);	
+			}
 		}catch(Exception e) {
 			for (TrafficSimObserver s : observer) {
 				s.onError(e.getMessage());

@@ -16,8 +16,9 @@ import javax.swing.border.Border;
 
 import simulator.control.Controller;
 
+@SuppressWarnings("serial")
 public class MainWindow extends JFrame {
-private Controller _ctrl;
+	private Controller _ctrl;
 
 	public MainWindow(Controller ctrl) {
 		super("Traffic Simulator");
@@ -26,7 +27,6 @@ private Controller _ctrl;
 	}
 
 	private void initGUI() {
-		createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.setContentPane(mainPanel);
 		
@@ -44,33 +44,30 @@ private Controller _ctrl;
 		mapsPanel.setLayout(new BoxLayout(mapsPanel, BoxLayout.Y_AXIS));
 		viewsPanel.add(mapsPanel);
 		
-		// tables
-		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
-		eventsView.setPreferredSize(new Dimension(500, 200));
-		tablesPanel.add(eventsView);
+		JPanel eventsTable = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
+		eventsTable.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(eventsTable);
 		
-		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
-		vehiclesView.setPreferredSize(new Dimension(500, 200));
-		tablesPanel.add(vehiclesView);
+		JPanel vehiclesTable = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
+		vehiclesTable.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(vehiclesTable);
 		
-		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
-		roadsView.setPreferredSize(new Dimension(500, 200));
-		tablesPanel.add(roadsView);
+		JPanel roadsTable = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
+		roadsTable.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(roadsTable);
 		
-		JPanel junctionsView = createViewPanel(new JTable(new JunctionTableModel(_ctrl)), "Junctions");
-		junctionsView.setPreferredSize(new Dimension(500, 200));
-		tablesPanel.add(junctionsView);
+		JPanel junctionsTable = createViewPanel(new JTable(new JunctionTableModel(_ctrl)), "Junctions");
+		junctionsTable.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(junctionsTable);
 		
-		// maps
-		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
-		mapView.setPreferredSize(new Dimension(500, 400));
-		mapsPanel.add(mapView);
+		JPanel mapTable = createViewPanel(new MapComponent(_ctrl), "Map");
+		mapTable.setPreferredSize(new Dimension(500, 400));
+		mapsPanel.add(mapTable);
 		
-		JPanel mapByRoadView = createViewPanel(new MapByRoadComponent(), "Map by Road");
-		mapByRoadView.setPreferredSize(new Dimension(500, 400));
-		mapsPanel.add(mapByRoadView);
-		
-	
+		JPanel mapByRoadTable = createViewPanel(new MapByRoadComponent(), "Map by Road");
+		mapByRoadTable.setPreferredSize(new Dimension(500, 400));
+		mapsPanel.add(mapByRoadTable);
+			
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
@@ -83,4 +80,4 @@ private Controller _ctrl;
 		p.add(new JScrollPane(c));
 		return p;
 	}
-	}
+}
