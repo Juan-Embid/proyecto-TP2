@@ -1,8 +1,14 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -44,26 +50,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		JToolBar miTool = new JToolBar();
 		this.add(miTool, BorderLayout.NORTH);
 		
-		
-		file = new JFileChooser("Select File");
-		file.setCurrentDirectory(new File("resorces/examples"));
+		//TODO borrar las dos lineas de abajo si no dan problemas
+		//file = new JFileChooser("Select File");
+		//file.setCurrentDirectory(new File("resorces/examples"));
 		fileLoad = createButton("Load File", "resources/icons/open.png");
-		/*fileLoad.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {	
-				try {
-					int chosen = file.showOpenDialog(null);
-					if(chosen == JFileChooser.APPROVE_OPTION) {
-						File chosenFile = file.getSelectedFile();
-						_ctrl.reset();
-						_ctrl.loadEvents(new FileInputStream(chosenFile));
-					}
-				}catch(FileNotFoundException exception){
-				JOptionPane.showMessageDialog(null, "File not found", "Search Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});*/
 		miTool.add(fileLoad);
 		miTool.addSeparator();
 		
@@ -72,6 +62,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 		changeWeather = createButton("Weather", "resources/icons/weather.png");
 		miTool.add(changeWeather);
+		miTool.addSeparator();
 		
 		run = createButton("Run", "resources/icons/run.png");
 		miTool.add(run);
@@ -79,12 +70,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		stop = createButton("Stop", "resources/icons/stop.png");
 		miTool.add(stop);
 		
-		tickLabel = new JLabel ("Ticks");
-		miTool.add(tickLabel);
+		tickLabel = new JLabel ("Ticks: ");
+		miTool.add(tickLabel); 	
 		
 		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1)); //value, min, max, step
+		ticks.setMinimumSize(new Dimension(70, 35));
+		ticks.setMaximumSize(new Dimension(70, 35));
+		ticks.setPreferredSize(new Dimension(70, 35));
 		miTool.add(ticks);
-		
+		miTool.addSeparator();
+
+		miTool.add(Box.createGlue());
 		exit = createButton("Exit", "resources/icons/exit.png");
 		miTool.add(exit);
 	}
