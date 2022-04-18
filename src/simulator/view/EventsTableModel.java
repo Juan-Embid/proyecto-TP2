@@ -25,6 +25,11 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	}
 	
 	@Override
+	public int getColumnCount() {
+		return columns.length;
+	}
+	
+	@Override
 	public int getRowCount() {
 		return events.size();
 	}
@@ -76,13 +81,9 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
+	
 	
 }

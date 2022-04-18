@@ -67,9 +67,7 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 	}
 
 	@Override
-	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {		
 	}
 
 	@Override
@@ -80,13 +78,11 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
 		
 	}
 

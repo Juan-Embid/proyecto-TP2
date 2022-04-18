@@ -133,6 +133,8 @@ public class Vehicle extends SimulatedObject{
 		return totalPollution;
 	}
 	
+	public int getTotalDistance() { return totalDistance; }
+	
 	public List<Junction> getItinerary() {
 		return itinerary;
 	}
