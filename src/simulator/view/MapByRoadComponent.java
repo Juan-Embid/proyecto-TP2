@@ -23,7 +23,6 @@ import simulator.model.Vehicle;
 import simulator.model.VehicleStatus;
 
 
-@SuppressWarnings("serial")
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver{
 
 	private static final Color _BackG_COLOR = Color.white;
@@ -127,13 +126,63 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	}
 
 	private void drawWeather(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		int i = 0;
+		for (Road r : map.getRoads()) {
+			switch(r.getWeather()) {
+				case CLOUDY:
+					
+					g.drawImage(loadImage("cloud.png"),  getWidth()- 85, ((i + 1) * 50) - 16, 32, 32, this);
+					break;
+				case RAINY:
+					
+					g.drawImage(loadImage("rain.png"),  getWidth()- 85, ((i + 1) * 50) - 16, 32, 32, this);
+					break;
+				case STORM:
+					
+					g.drawImage(loadImage("storm.png"),  getWidth()- 85, ((i + 1) * 50) - 16, 32, 32, this);
+					break;
+				case SUNNY:
+					
+					g.drawImage(loadImage("sun.png"),  getWidth()- 85, ((i + 1) * 50) - 16, 32, 32, this);
+					break;
+				case WINDY:
+					
+					g.drawImage(loadImage("wind.png"),  getWidth()- 85, ((i + 1) * 50) - 16, 32, 32, this);
+					break;
+			}
+			i++;
+		}
 	}
 
 	private void drawJunctions(Graphics g) {
-		// TODO Auto-generated method stub
+		int i = 0;
 		
+		for (Road r : map.getRoads()) {
+			Junction origin = r.getSrc();
+			Junction dest = r.getDest();
+			
+			int x = 50;
+			int y = (i + 1) * 50;
+			int x1 = getWidth() - 100;
+			int y1 = (i + 1) * 50;
+			
+			Color junctionColor = _RED_LIGHT_COLOR;
+			int index = dest.getGreenLightIndex();
+			if (index != -1 && r.equals(dest.getInRoads().get(index))) 
+				junctionColor = _GREEN_LIGHT_COLOR;
+			
+			g.setColor(_JUNCT_COLOR);
+			g.fillOval(x - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
+		
+			g.setColor(junctionColor);
+			g.fillOval(x1 - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
+			
+			g.setColor(_JUNCT_COLOR);
+			g.drawString(origin.getId(), x1 - 2, y1 - 7);
+			g.setColor(_JUNCT_LABEL_COLOR);
+			g.drawString(dest.getId(), x1 - 2, y1 - 7);
+			i++;
+	}
 	}
 
 	private void drawVehicles(Graphics g) {
@@ -199,7 +248,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -232,4 +280,5 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	public void onError(String err) {
 		
 	}
+
 }
