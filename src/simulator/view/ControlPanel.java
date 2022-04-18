@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,10 +40,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private Controller _ctrl;
 		private JLabel tickLabel;
 		private boolean _stopped;
+		private boolean pressed;
+		private ChangeCO2ClassDialog pollutionDialog;
 		
 	ControlPanel(Controller controller){
 		_ctrl = controller;
 		_stopped = false;
+		pressed = false;
 		_ctrl.addObserver(this);
 		initGUI();
 	}
@@ -80,7 +84,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		changePollution.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("probando");
+				try {
+				} catch (Exception e){
+					
+				}
 			}
 		});
 		miTool.add(changePollution);
@@ -101,17 +108,20 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		run.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("probando");
-			}
+				pressed = false;
+				enableToolBar(false);
+				_stopped = false;
+				run_sim((int) ticks.getValue());			}
 		});
 		miTool.add(run);
 		
-		// STOP BUTTON 
+		// STOP BUTTON
 		stop = createButton("Stop", "resources/icons/stop.png");
 		stop.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("probando");
+			public void actionPerformed(ActionEvent arg0) { // TODO si el primer boton que se aprieta el el stop entonces se queda todo bloqueado, arreglarlo
+				pressed = true;
+				enableToolBar(!_stopped);
 			}
 		});
 		miTool.add(stop);
@@ -147,68 +157,57 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		if (n > 0 && !_stopped) {
 			try {
 				_ctrl.run(1);
-				} catch (Exception e) {
-		// TODO show error message
-			_stopped = true;
-			return;
-		}
-		SwingUtilities.invokeLater(new Runnable() {
-		@Override
-		
-		public void run() {
-			run_sim(n - 1);
-		}
-		});
-			} else {
-				enableToolBar(true);
+			} catch (Exception e) {
 				_stopped = true;
-				}
+				return;
 			}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				run_sim(n - 1);
+			}
+		});
+		} else {
+			enableToolBar(true);
+			_stopped = true;
+		}
+	}
 	
-		private void enableToolBar(boolean b) {
-		// TODO Auto-generated method stub
-		
+	private void enableToolBar(boolean b) { // deshabilitamos todos los botones excepto el del stop
+		fileLoad.setEnabled(_stopped);
+		changePollution.setEnabled(_stopped);
+		changeWeather.setEnabled(_stopped);
+		run.setEnabled(_stopped);
+		if(!pressed)
+			stop.setEnabled(!_stopped);
+		exit.setEnabled(_stopped);
 	}
 
 		private void stop() {
 		_stopped = true;
-	}
-		
+		}
 	
 	@Override
-	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {		
 	}
 
 	@Override
-	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {		
 	}
 
 	@Override
-	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {		
 	}
 
 	@Override
-	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onReset(RoadMap map, List<Event> events, int time) {		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void onError(String err) {
-		// TODO Auto-generated method stub
-		
+	public void onError(String err) {		
 	}
-	
 }

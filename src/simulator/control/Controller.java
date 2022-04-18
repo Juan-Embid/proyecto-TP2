@@ -1,16 +1,15 @@
 package simulator.control;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import simulator.factories.Factory;
+
 import simulator.model.Event;
 import simulator.model.TrafficSimObserver;
 import simulator.model.TrafficSimulator;
@@ -61,7 +60,7 @@ public class Controller {
 	
 	public void reset() {
 		trafficSimulator.reset();
-		}
+	}
 	
 	public void addObserver(TrafficSimObserver o){
 		trafficSimulator.addObserver(o);
@@ -74,5 +73,4 @@ public class Controller {
 	private void addEvent(Event e) {
 		trafficSimulator.addEvent(e);
 	}
-	
-	}
+}
