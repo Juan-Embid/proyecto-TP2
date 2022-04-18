@@ -142,8 +142,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int exit = JOptionPane.showConfirmDialog(getParent(), "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION);
-				if (exit == 0)
+				int exitDialog = JOptionPane.showConfirmDialog(getParent(), "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION);
+				if (exitDialog == 0)
 					System.exit(0);
 			}
 		});
