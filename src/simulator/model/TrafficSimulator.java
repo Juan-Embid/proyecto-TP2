@@ -21,7 +21,7 @@ public class TrafficSimulator implements Observable <TrafficSimObserver>{
 	}
 	
 	public void addEvent(Event e) {
-		eventList.add(e);
+		this.eventList.add(e);
 		for (TrafficSimObserver s : observer) {
 			s.onEventAdded(map, eventList, e, time);	
 		}
@@ -86,8 +86,6 @@ public class TrafficSimulator implements Observable <TrafficSimObserver>{
 	}
 
 	@Override
-	public void removeObserver(TrafficSimObserver o) {
-		// TODO Auto-generated method stub
-		
+	public void removeObserver(TrafficSimObserver o) {		
 	}
 }

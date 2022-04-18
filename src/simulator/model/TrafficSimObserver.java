@@ -10,6 +10,4 @@ public interface TrafficSimObserver {
 	void onReset(RoadMap map, List<Event> events, int time);
 	void onRegister(RoadMap map, List<Event> events, int time);
 	void onError(String err);
-
-	
 }

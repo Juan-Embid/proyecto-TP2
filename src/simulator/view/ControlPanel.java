@@ -2,7 +2,6 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -71,7 +70,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 						_ctrl.loadEvents(new FileInputStream(openFile));
 					}
 				} catch (FileNotFoundException e) {
-					JOptionPane.showMessageDialog(getParent(),  e.getMessage(), "File not found", JOptionPane.WARNING_MESSAGE); // para que se ponga encima y centrado, mensaje, cabecera, tipo de mensaje
+					JOptionPane.showMessageDialog(getParent(), e.getMessage(), "File not found", JOptionPane.WARNING_MESSAGE); // para que se ponga encima y centrado, mensaje, cabecera, tipo de mensaje
 
 				}
 			}
@@ -143,7 +142,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("probando");
+				int exit = JOptionPane.showConfirmDialog(getParent(), "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION);
+				if (exit == 0)
+					System.exit(0);
 			}
 		});
 		miTool.add(exit);
