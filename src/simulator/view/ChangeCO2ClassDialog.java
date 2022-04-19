@@ -123,16 +123,13 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		return (Integer) co2Model.getSelectedItem();
 	}
-	public int open(RoadMap mapa) {
+	public int open(RoadMap map) {
 		
-		for (Vehicle v : mapa.getVehicles())
-		{
+		for (Vehicle v : map.getVehicles())
 			vehicleModel.addElement(v);
-		}
+		
 		for (int i = 0; i < 11; i++)
-		{
 			co2Model.addElement(i);
-		}
 		
 		setLocation(getParent().getLocation().x + 10, getParent().getLocation().y + 10);
 		setVisible(true);
