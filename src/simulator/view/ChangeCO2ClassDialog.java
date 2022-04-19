@@ -36,25 +36,23 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JButton ok;
 	private JButton cancel;
 
-	private int estado = 0;
+	private int status = 0;
 	private DefaultComboBoxModel<Vehicle> vehicleModel;
 	private DefaultComboBoxModel<Integer> co2Model;
 
-	public ChangeCO2ClassDialog(Frame father) {
-		
-		super(father, true);
+	public ChangeCO2ClassDialog(Frame frame) {
+		super(frame, true);
 		initGUI();
 	}
 
 	private void initGUI() {
-		
 		setTitle("Change CO2 Class");
-		
 		emerge = new JPanel();
 		emerge.setLayout(new BoxLayout(emerge, BoxLayout.Y_AXIS));
 		setContentPane(emerge);
 		
-		text = new JLabel("<html>Schedule an event to change the CO2 class of a vehicle after a given number of<br>simulation ticks form now.</html>");
+		// para que sea reactive y se ajuste a la ventana
+		text = new JLabel("<html>Schedule an event to change the CO2 class of a vehicle after a given number of simulation ticks form now.</html>");
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		emerge.add(text);
 		emerge.add(Box.createRigidArea(new Dimension(0, 20)));		
@@ -79,10 +77,10 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		ticks = new JSpinner();
 		ticksText = new JLabel("Ticks: ", JLabel.CENTER);
-		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 99999, 1));
-		ticks.setMinimumSize(new Dimension(80, 30));
-		ticks.setMaximumSize(new Dimension(200, 30));
-		ticks.setPreferredSize(new Dimension(80, 30));
+		ticks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1)); //value, min, max, step
+		ticks.setMaximumSize(new Dimension(70, 23));
+		ticks.setMinimumSize(new Dimension(70, 23));
+		ticks.setPreferredSize(new Dimension(70, 23));
 		
 		buttons.add(ticksText);
 		buttons.add(ticks);
@@ -93,10 +91,9 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				estado = 0;
+				status = 0;
 				ChangeCO2ClassDialog.this.setVisible(false);
 			}
 		});
@@ -109,7 +106,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if ((vehicleModel.getSelectedItem() != null) && (co2Model.getSelectedItem() != null))
 				{
-					estado = 1;
+					status = 1;
 					ChangeCO2ClassDialog.this.setVisible(false);
 				}
 			}
@@ -140,7 +137,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		setLocation(getParent().getLocation().x + 10, getParent().getLocation().y + 10);
 		setVisible(true);
 		
-		return estado;
+		return status;
 	}
 
 	

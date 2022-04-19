@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import simulator.model.*;
 
+@SuppressWarnings("serial")
 public class ChangeWeatherDialog extends JDialog {
 	
 	private JPanel emerge;
@@ -27,21 +28,19 @@ public class ChangeWeatherDialog extends JDialog {
 	private DefaultComboBoxModel<Road> roadModel;
 	private DefaultComboBoxModel<Weather> weatherModel;
 
-	public ChangeWeatherDialog(Frame father) {
-		
-		super(father, true);
+	public ChangeWeatherDialog(Frame frame) {
+		super(frame, true);
 		initGUI();
 	}
 
 	private void initGUI() {
-	
 		setTitle("Change Road Weather");
-			
 		emerge = new JPanel();
 		emerge.setLayout(new BoxLayout(emerge, BoxLayout.Y_AXIS));
 		setContentPane(emerge);
-			
-		text = new JLabel("<html>Schedule an event to change the weather class of a road after a given number of<br>simulation ticks form now.</html>");
+		
+		// para que sea reactive y se ajuste a la ventana
+		text = new JLabel("<html>Schedule an event to change the weather class of a road after a given number of simulation ticks form now.</html>");
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		emerge.add(text);
 		emerge.add(Box.createRigidArea(new Dimension(0, 20)));		
@@ -66,10 +65,10 @@ public class ChangeWeatherDialog extends JDialog {
 			
 		ticks = new JSpinner();
 		ticksText = new JLabel("Ticks: ", JLabel.CENTER);
-		ticks = new JSpinner(new SpinnerNumberModel(10, 1, 300, 1));
-		ticks.setMaximumSize(new Dimension(200, 30));
-		ticks.setMinimumSize(new Dimension(80, 30));
-		ticks.setPreferredSize(new Dimension(80, 30));
+		ticks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1)); //value, min, max, step
+		ticks.setMaximumSize(new Dimension(70, 23));
+		ticks.setMinimumSize(new Dimension(70, 23));
+		ticks.setPreferredSize(new Dimension(70, 23));
 			
 		buttons.add(ticksText);
 		buttons.add(ticks);

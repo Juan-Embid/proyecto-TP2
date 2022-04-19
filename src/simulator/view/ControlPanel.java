@@ -85,12 +85,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		miTool.addSeparator();
 		
 		// POLLUTION BUTTON
-		changePollution = createButton("Pullution", "resources/icons/co2class.png"); // TODO terminarlo
+		changePollution = createButton("Pullution", "resources/icons/co2class.png");
 		changePollution.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					cambiarCO2();
+					changeCO2Function();
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -99,12 +99,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		miTool.add(changePollution);
 
 		// WHEATHER BUTTON
-		changeWeather1 = createButton("Weather", "resources/icons/weather.png"); // TODO terminarlo
+		changeWeather1 = createButton("Weather", "resources/icons/weather.png");
 		changeWeather1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					cambiarTiempo();	
+					changeWeatherFunction();	
 				} catch (Exception e){
 					e.printStackTrace();
 				}			}
@@ -185,38 +185,30 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		}
 	}
 	
-protected void cambiarTiempo() {
-		
-		int estado = 0;
+	protected void changeWeatherFunction() {
 		changeWeather = new ChangeWeatherDialog((Frame) SwingUtilities.getWindowAncestor(this));
-		
-		estado = changeWeather.open(map);
-		if (estado != 0)
-		{
+		int status = changeWeather.open(map);
+		if (status != 0) {
 			List<Pair<String, Weather>> cs = new ArrayList<>();
 			cs.add(new Pair<String, Weather>(changeWeather.getRoad().getId(), changeWeather.getWeather()));
 			try {
 				_ctrl.addEvent(new SetWeatherEvent(time1+changeWeather.getTicks(), cs));
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog((Frame) SwingUtilities.getWindowAncestor(this), "Ha ocurrido un error al cambiar el clima (" + e + ")");
+				JOptionPane.showMessageDialog(getParent(), "Ha ocurrido un error al cambiar el clima (" + e + ")");
 			}
 		}
 	}
 	
-protected void cambiarCO2() {
-		
-		int estado = 0;
+	protected void changeCO2Function() {
 		changeCO2 = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
-		
-		estado = changeCO2.open(map);
-		if (estado != 0)
-		{
+		int status = changeCO2.open(map);
+		if (status != 0) {
 			List<Pair<String, Integer>> cs = new ArrayList<>();
 			cs.add(new Pair<String, Integer>(changeCO2.getVehicle().getId(), changeCO2.getCO2Class()));
 			try {
 				_ctrl.addEvent(new NewSetContClassEvent(time1+changeCO2.getTicks(), cs));
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog((Frame) SwingUtilities.getWindowAncestor(this), "Ha ocurrido un error al cambiar el CO2 (" + e + ")");
+				JOptionPane.showMessageDialog(getParent(), "Ha ocurrido un error al cambiar el CO2 (" + e + ")");
 			}
 		}
 	}
