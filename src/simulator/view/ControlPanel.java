@@ -39,12 +39,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private Controller _ctrl;
 		private JLabel tickLabel;
 		private boolean _stopped;
-		private boolean pressed;
 		
 	ControlPanel(Controller controller){
 		_ctrl = controller;
 		_stopped = false;
-		pressed = false;
 		_ctrl.addObserver(this);
 		initGUI();
 	}
@@ -110,9 +108,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		run.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				pressed = false;
 				_stopped = false;
-				enableToolBar(false);
+				enableToolBar(true);
 				run_sim((int) ticks.getValue());
 			}
 		});
@@ -123,9 +120,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		stop.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				pressed = true;
 				stop();
-				enableToolBar(!_stopped);
+				enableToolBar(false);
+				_stopped = true;
 			}
 		});
 		miTool.add(stop);
@@ -175,8 +172,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 		} else {
-			enableToolBar(true);
 			_stopped = true;
+			enableToolBar(true);
 		}
 	}
 	
@@ -185,7 +182,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		changePollution.setEnabled(_stopped);
 		changeWeather.setEnabled(_stopped);
 		run.setEnabled(_stopped);
-		stop.setEnabled(!_stopped);
+		stop.setEnabled(b);
 		exit.setEnabled(_stopped);
 	}
 
