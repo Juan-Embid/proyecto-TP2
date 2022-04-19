@@ -240,18 +240,26 @@ protected void cambiarCO2() {
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {		
+		this.map = map;
+		time1 = time;	
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {		
+		this.map = map;
+		time1 = time;	
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {		
+		this.map = map;
+		time1 = time;	
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
+		this.map = map;
+		time1 = time;	
 	}
 
 	@Override
