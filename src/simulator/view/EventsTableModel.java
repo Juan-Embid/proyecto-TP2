@@ -20,7 +20,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	EventsTableModel(Controller _ctrl){
 		super();
 		this._ctrl = _ctrl;
-		_events = new ArrayList<>();
+		_events = new ArrayList<Event>();
 		this._ctrl.addObserver(this);
 	}
 	

@@ -113,7 +113,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (!isGuiMode && _inFile != null) {
+		if (!isGuiMode && _inFile == null) {
 			throw new ParseException("An events file is missing");
 		}
 	}

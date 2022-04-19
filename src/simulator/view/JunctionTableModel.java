@@ -18,7 +18,7 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 	private List<Junction> juncts;
 	
 	public JunctionTableModel(Controller _ctrl) {
-		juncts = new ArrayList<>();
+		juncts = new ArrayList<Junction>();
 		_ctrl.addObserver(this);
 	}
 

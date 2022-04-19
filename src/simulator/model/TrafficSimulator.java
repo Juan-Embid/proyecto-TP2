@@ -79,7 +79,12 @@ public class TrafficSimulator implements Observable <TrafficSimObserver>{
 
 	@Override
 	public void addObserver(TrafficSimObserver o) {
-		// TODO Auto-generated method stub
+		
+		if (!observer.contains(o))
+		{
+			observer.add(o);
+		}
+		
 		for (TrafficSimObserver s : observer) {
 			s.onRegister(map, eventList, time);	
 		}
