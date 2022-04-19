@@ -70,7 +70,7 @@ public class Controller {
 		trafficSimulator.removeObserver(o);
 	}
 	
-	private void addEvent(Event e) {
+	public void addEvent(Event e) {
 		trafficSimulator.addEvent(e);
 	}
 }

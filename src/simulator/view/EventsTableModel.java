@@ -43,69 +43,48 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnsIndex) {
+		Object object = null;
 		switch (columnsIndex) {
 		case 0:
-			return _events.get(rowIndex).getTime();
+			object = _events.get(rowIndex).getTime();
+			break;
 		case 1:
-			return _events.get(rowIndex).toString();
+			object = _events.get(rowIndex).toString();
+			break;
 		default: 
 			return null;
 		}
+		return object;
 	}
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				_events = events;
-				fireTableDataChanged();
-			}
-		});
+		_events = events;
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				_events = events;
-				fireTableDataChanged();
-			}
-		});
+		_events = events;
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				_events = events;
-				fireTableDataChanged();
-			}
-		});
+		_events = events;
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				_events = events;
-				fireTableDataChanged();
-			}
-		});
+		_events = events;
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				_events = events;
-				fireTableDataChanged();
-			}
-		});
+		_events = events;
+		fireTableDataChanged();
 	}
 
 	@Override
