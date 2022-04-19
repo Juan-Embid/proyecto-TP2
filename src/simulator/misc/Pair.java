@@ -16,5 +16,9 @@ public class Pair<T1, T2> {
 	public T2 getSecond() {
 		return _second;
 	}
-
+	
+	@Override
+	public String toString() {
+		return String.format("[%s, %s]", _first.toString(), _second.toString());
+	}
 }
