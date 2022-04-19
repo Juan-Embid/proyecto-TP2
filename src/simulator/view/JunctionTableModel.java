@@ -41,44 +41,42 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 
-		Object s = null;
+		Object object = null;
 		String queue = "";
 		
 		switch (columnIndex)
 		{
 			case 0:
-				s = juncts.get(rowIndex).getId();
+				object = juncts.get(rowIndex).getId();
 				break;
 			case 1:
-				int indice = juncts.get(rowIndex).getGreenLightIndex();
+				int index = juncts.get(rowIndex).getGreenLightIndex();
 				
-				if (indice == -1)
-				{
-					s = "NONE";
-				}
+				if (index == -1)
+				
+					object = "NONE";
+				
 				else
-				{
-					s = juncts.get(rowIndex).getInRoads().get(indice);
-				}
+				
+					object = juncts.get(rowIndex).getInRoads().get(index);
 				break;
 			case 2:
 				for (Road r : juncts.get(rowIndex).getInRoads())
-				{
 					queue += r.getId() + ":" + r.getVehicles().toString()+ " ";
-				}
-				s = queue;
+				
+				object = queue;
 				break;
 			default:
 				break;
 		}
 		
-		return s;
+		return object;
 	}
 	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		this.juncts = map.getJunctions();
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -89,6 +87,8 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {		
+		this.juncts = map.getJunctions();
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -99,7 +99,8 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		
+		this.juncts = map.getJunctions();
+		fireTableDataChanged();
 	}
 
 	@Override
