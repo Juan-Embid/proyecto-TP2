@@ -2,11 +2,13 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -21,9 +23,13 @@ import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import simulator.control.Controller;
+import simulator.misc.Pair;
 import simulator.model.Event;
+import simulator.model.NewSetContClassEvent;
 import simulator.model.RoadMap;
+import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Weather;
 
 @SuppressWarnings("serial") // para que me quite el warning del serial, que por alguna razon todo el rato sale
 public class ControlPanel extends JPanel implements TrafficSimObserver {
@@ -31,7 +37,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private JFileChooser file;
 		private JButton fileLoad;
 		private JButton changePollution;
-		private JButton changeWeather;
+		private JButton changeWeather1;
 		private JButton run;
 		private JButton stop;
 		private JSpinner ticks;
@@ -39,10 +45,15 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		private Controller _ctrl;
 		private JLabel tickLabel;
 		private boolean _stopped;
-		
+		private boolean pressed;
+		private ChangeCO2ClassDialog changeCO2;
+		private ChangeWeatherDialog changeWeather;
+		private RoadMap map;
+		private int time1;
 	ControlPanel(Controller controller){
 		_ctrl = controller;
 		_stopped = false;
+		pressed = false;
 		_ctrl.addObserver(this);
 		initGUI();
 	}
@@ -81,7 +92,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
+					cambiarCO2();
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -90,17 +101,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		miTool.add(changePollution);
 
 		// WHEATHER BUTTON
-		changeWeather = createButton("Weather", "resources/icons/weather.png"); // TODO terminarlo
-		changeWeather.addActionListener(new ActionListener() {
+		changeWeather1 = createButton("Weather", "resources/icons/weather.png"); // TODO terminarlo
+		changeWeather1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
+					cambiarTiempo();	
 				} catch (Exception e){
 					e.printStackTrace();
 				}			}
 		});
-		miTool.add(changeWeather);
+		miTool.add(changeWeather1);
 		miTool.addSeparator();
 		
 		// RUN BUTTON 
@@ -108,8 +119,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		run.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				pressed = false;
 				_stopped = false;
-				enableToolBar(true);
+				enableToolBar(false);
 				run_sim((int) ticks.getValue());
 			}
 		});
@@ -120,9 +132,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		stop.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				pressed = true;
 				stop();
-				enableToolBar(false);
-				_stopped = true;
+				enableToolBar(!_stopped);
 			}
 		});
 		miTool.add(stop);
@@ -172,17 +184,53 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 		} else {
-			_stopped = true;
 			enableToolBar(true);
+			_stopped = true;
+		}
+	}
+	
+protected void cambiarTiempo() {
+		
+		int estado = 0;
+		changeWeather = new ChangeWeatherDialog((Frame) SwingUtilities.getWindowAncestor(this));
+		
+		estado = changeWeather.open(map);
+		if (estado != 0)
+		{
+			List<Pair<String, Weather>> cs = new ArrayList<>();
+			cs.add(new Pair<String, Weather>(changeWeather.getRoad().getId(), changeWeather.getWeather()));
+			try {
+				_ctrl.addEvent(new SetWeatherEvent(time1+changeWeather.getTicks(), cs));
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog((Frame) SwingUtilities.getWindowAncestor(this), "Ha ocurrido un error al cambiar el clima (" + e + ")");
+			}
+		}
+	}
+	
+protected void cambiarCO2() {
+		
+		int estado = 0;
+		changeCO2 = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
+		
+		estado = changeCO2.open(map);
+		if (estado != 0)
+		{
+			List<Pair<String, Integer>> cs = new ArrayList<>();
+			cs.add(new Pair<String, Integer>(changeCO2.getVehicle().getId(), changeCO2.getCO2Class()));
+			try {
+				_ctrl.addEvent(new NewSetContClassEvent(time1+changeCO2.getTicks(), cs));
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog((Frame) SwingUtilities.getWindowAncestor(this), "Ha ocurrido un error al cambiar el CO2 (" + e + ")");
+			}
 		}
 	}
 	
 	private void enableToolBar(boolean b) { // deshabilitamos todos los botones excepto el del stop
 		fileLoad.setEnabled(_stopped);
 		changePollution.setEnabled(_stopped);
-		changeWeather.setEnabled(_stopped);
+		changeWeather1.setEnabled(_stopped);
 		run.setEnabled(_stopped);
-		stop.setEnabled(b);
+		stop.setEnabled(!_stopped);
 		exit.setEnabled(_stopped);
 	}
 
