@@ -189,7 +189,7 @@ protected void cambiarTiempo() {
 		
 		int estado = 0;
 		changeWeather = new ChangeWeatherDialog((Frame) SwingUtilities.getWindowAncestor(this));
-		if(map != null)
+		
 		estado = changeWeather.open(map);
 		if (estado != 0)
 		{
@@ -207,7 +207,7 @@ protected void cambiarCO2() {
 		
 		int estado = 0;
 		changeCO2 = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
-		if(map != null)
+		
 		estado = changeCO2.open(map);
 		if (estado != 0)
 		{
@@ -240,26 +240,18 @@ protected void cambiarCO2() {
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {		
-		this.map = map;
-		time1 = time;	
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {		
-		this.map = map;
-		time1 = time;	
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {		
-		this.map = map;
-		time1 = time;	
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		this.map = map;
-		time1 = time;	
 	}
 
 	@Override
