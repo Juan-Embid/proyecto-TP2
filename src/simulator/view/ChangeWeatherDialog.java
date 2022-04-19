@@ -39,8 +39,7 @@ public class ChangeWeatherDialog extends JDialog {
 		emerge.setLayout(new BoxLayout(emerge, BoxLayout.Y_AXIS));
 		setContentPane(emerge);
 		
-		// para que sea reactive y se ajuste a la ventana
-		text = new JLabel("<html>Schedule an event to change the weather class of a road after a given number of simulation ticks form now.</html>");
+		text = new JLabel("<html>Order an event to change the weather class of a road after a given number of ticks from now.</html>");
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		emerge.add(text);
 		emerge.add(Box.createRigidArea(new Dimension(0, 20)));		
