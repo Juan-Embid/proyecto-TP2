@@ -18,7 +18,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	private List<Road> roads;
 	
 	public RoadsTableModel(Controller _ctrl) {
-		roads = new ArrayList<>();
+		roads = new ArrayList<Road>();
 		_ctrl.addObserver(this);
 	}
 
@@ -61,7 +61,8 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		
+		roads = map.getRoads();
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -72,18 +73,20 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		
+		roads = map.getRoads();
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		roads = new ArrayList<>();
+		roads = map.getRoads();
 		fireTableDataChanged();
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		
+		roads = map.getRoads();
+		fireTableDataChanged();
 	}
 
 	@Override

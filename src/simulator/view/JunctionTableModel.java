@@ -8,6 +8,7 @@ import javax.swing.table.AbstractTableModel;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.Junction;
+import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
@@ -39,21 +40,41 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Object temp = null;
-		switch (columnIndex) {
-		case 0:
-			temp = juncts.get(rowIndex).getId();
-			break;
-		case 1:
-			temp = juncts.get(rowIndex).getId();
-			break;
-		case 2:
-			temp = juncts.get(rowIndex).getId();
-			break;
-		}
-		return temp;
-	}
 
+		Object s = null;
+		String queue = "";
+		
+		switch (columnIndex)
+		{
+			case 0:
+				s = juncts.get(rowIndex).getId();
+				break;
+			case 1:
+				int indice = juncts.get(rowIndex).getGreenLightIndex();
+				
+				if (indice == -1)
+				{
+					s = "NONE";
+				}
+				else
+				{
+					s = juncts.get(rowIndex).getInRoads().get(indice);
+				}
+				break;
+			case 2:
+				for (Road r : juncts.get(rowIndex).getInRoads())
+				{
+					queue += r.getId() + ":" + r.getVehicles().toString()+ " ";
+				}
+				s = queue;
+				break;
+			default:
+				break;
+		}
+		
+		return s;
+	}
+	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
