@@ -113,13 +113,11 @@ public class ChangeWeatherDialog extends JDialog {
 		return (Weather) weatherModel.getSelectedItem();
 	}
 	
-public Road getRoad() {
-		
+	public Road getRoad() {
 		return (Road) roadModel.getSelectedItem();
 	}
 	
 	public int open(RoadMap mapa) {
-		
 		for (Road r : mapa.getRoads())
 		
 			roadModel.addElement(r);
@@ -135,10 +133,6 @@ public Road getRoad() {
 	}
 
 	public Integer getTicks() {
-		
 		return (Integer) ticks.getValue();
 	}
-
-		
-	
 }

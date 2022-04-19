@@ -187,29 +187,19 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	
 	protected void changeWeatherFunction() {
 		changeWeather = new ChangeWeatherDialog((Frame) SwingUtilities.getWindowAncestor(this));
-		int status = changeWeather.open(map);
-		if (status != 0) {
+		if (changeWeather.open(map) != 0) {
 			List<Pair<String, Weather>> cs = new ArrayList<>();
 			cs.add(new Pair<String, Weather>(changeWeather.getRoad().getId(), changeWeather.getWeather()));
-			try {
-				_ctrl.addEvent(new SetWeatherEvent(time1+changeWeather.getTicks(), cs));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(getParent(), "Ha ocurrido un error al cambiar el clima (" + e + ")");
-			}
+			_ctrl.addEvent(new SetWeatherEvent(time1+changeWeather.getTicks(), cs));
 		}
 	}
 	
 	protected void changeCO2Function() {
 		changeCO2 = new ChangeCO2ClassDialog((Frame) SwingUtilities.getWindowAncestor(this));
-		int status = changeCO2.open(map);
-		if (status != 0) {
+		if (changeCO2.open(map) != 0) {
 			List<Pair<String, Integer>> cs = new ArrayList<>();
 			cs.add(new Pair<String, Integer>(changeCO2.getVehicle().getId(), changeCO2.getCO2Class()));
-			try {
-				_ctrl.addEvent(new NewSetContClassEvent(time1+changeCO2.getTicks(), cs));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(getParent(), "Ha ocurrido un error al cambiar el CO2 (" + e + ")");
-			}
+			_ctrl.addEvent(new NewSetContClassEvent(time1+changeCO2.getTicks(), cs));
 		}
 	}
 	
