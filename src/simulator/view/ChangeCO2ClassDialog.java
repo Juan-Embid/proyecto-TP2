@@ -36,7 +36,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JButton ok;
 	private JButton cancel;
 
-	private int estado = 0;
+	private int status = 0;
 	private DefaultComboBoxModel<Vehicle> vehicleModel;
 	private DefaultComboBoxModel<Integer> co2Model;
 
@@ -96,7 +96,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				estado = 0;
+				status = 0;
 				ChangeCO2ClassDialog.this.setVisible(false);
 			}
 		});
@@ -109,7 +109,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if ((vehicleModel.getSelectedItem() != null) && (co2Model.getSelectedItem() != null))
 				{
-					estado = 1;
+					status = 1;
 					ChangeCO2ClassDialog.this.setVisible(false);
 				}
 			}
@@ -126,21 +126,18 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		return (Integer) co2Model.getSelectedItem();
 	}
-	public int open(RoadMap mapa) {
+	public int open(RoadMap map) {
 		
-		for (Vehicle v : mapa.getVehicles())
-		{
+		for (Vehicle v : map.getVehicles())
 			vehicleModel.addElement(v);
-		}
+		
 		for (int i = 0; i < 11; i++)
-		{
 			co2Model.addElement(i);
-		}
 		
 		setLocation(getParent().getLocation().x + 10, getParent().getLocation().y + 10);
 		setVisible(true);
 		
-		return estado;
+		return status;
 	}
 
 	
