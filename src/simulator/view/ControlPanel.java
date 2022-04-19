@@ -111,8 +111,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				pressed = false;
-				enableToolBar(false);
 				_stopped = false;
+				enableToolBar(false);
 				run_sim((int) ticks.getValue());
 			}
 		});
@@ -185,8 +185,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		changePollution.setEnabled(_stopped);
 		changeWeather.setEnabled(_stopped);
 		run.setEnabled(_stopped);
-		if(!pressed)
-			stop.setEnabled(!_stopped);
+		stop.setEnabled(!_stopped);
 		exit.setEnabled(_stopped);
 	}
 

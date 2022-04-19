@@ -3,6 +3,7 @@ package simulator.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -18,7 +19,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	private static final String[] _columns = {"Time", "Desc."};
 	
 	EventsTableModel(Controller _ctrl){
-		super();
+		//super();
 		this._ctrl = _ctrl;
 		_events = new ArrayList<Event>();
 		this._ctrl.addObserver(this);
@@ -42,52 +43,72 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnsIndex) {
-		Event event = this._events.get(rowIndex);
 		switch (columnsIndex) {
 		case 0:
-			return event.getTime();
+			return _events.get(rowIndex).getTime();
 		case 1:
-			return event.toString();
+			return _events.get(rowIndex).toString();
 		default: 
-			return null; // TODO comprobar que esto no está petando
+			return null;
 		}
 	}
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		this._events = events;
-		this.fireTableDataChanged();
-		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_events = events;
+				fireTableDataChanged();
+			}
+		});
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		this._events = events;
-		this.fireTableDataChanged();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_events = events;
+				fireTableDataChanged();
+			}
+		});
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		if(!this._events.contains(e)) {
-			this._events.add(e);
-			this.fireTableDataChanged();
-		}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_events = events;
+				fireTableDataChanged();
+			}
+		});
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		this._events = new ArrayList<>();
-		this.fireTableDataChanged();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_events = events;
+				fireTableDataChanged();
+			}
+		});
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		this._events = events;
-		fireTableDataChanged();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_events = events;
+				fireTableDataChanged();
+			}
+		});
 	}
 
 	@Override
 	public void onError(String err) {
-		
 	}
 }

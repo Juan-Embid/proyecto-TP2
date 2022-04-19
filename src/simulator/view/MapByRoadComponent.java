@@ -180,7 +180,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.setColor(_JUNCT_COLOR);
 			g.drawString(origin.getId(), x1 - 2, y1 - 7);
 			g.setColor(_JUNCT_LABEL_COLOR);
-			g.drawString(dest.getId(), x1 - 2, y1 - 7);
 			i++;
 	}
 	}
