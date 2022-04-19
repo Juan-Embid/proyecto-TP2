@@ -10,6 +10,7 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
+import simulator.model.VehicleStatus;
 
 public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver{
 	
@@ -38,32 +39,64 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Object object = null;
-		switch(columnIndex) {
-		case 0:
-			object = vehicles.get(rowIndex).getId();
-		case 1:
-			object = vehicles.get(rowIndex).getLocation();
-		case 2:
-			object = vehicles.get(rowIndex).getItinerary();
-		case 3:
-			object = vehicles.get(rowIndex).getContClass();
-		case 4:
-			object = vehicles.get(rowIndex).getMaxSpeed();
-		case 5:
-			object = vehicles.get(rowIndex).getTotalCO2();
-		case 6:
-			object = vehicles.get(rowIndex).getTotalDistance();
+		Object s = null;
+
+		switch (columnIndex)
+		{
+			case 0:
+				s = vehicles.get(rowIndex).getId();
+				break;
+			case 1:
+				VehicleStatus status = vehicles.get(rowIndex).getStatus();
+				StringBuilder text = new StringBuilder();
+				switch (status)
+				{
+					case PENDING:
+						text.append("Pending");
+						break;
+					case WAITING:    
+						text.append("Waiting:"+ vehicles.get(rowIndex).getItinerary());
+						break;
+					case TRAVELING:  
+						text.append(vehicles.get(rowIndex).getRoad() + ": " + vehicles.get(rowIndex).getLocation());
+						break;
+					case ARRIVED:    
+						text.append("Arrived");
+						break;
+				}
+				s = text.toString();
+				break;
+			case 2:
+				s = vehicles.get(rowIndex).getItinerary();
+				break;
+			case 3:
+				s = vehicles.get(rowIndex).getContClass();
+				break;
+			case 4:
+				s = vehicles.get(rowIndex).getMaxSpeed();
+				break;
+			case 5:
+				s = vehicles.get(rowIndex).getSpeed();
+				break;
+			case 6:
+				s = vehicles.get(rowIndex).getTotalCO2();
+				break;
+			case 7:
+				s = vehicles.get(rowIndex).getTotalDistance();
+				break;
+			default:
+				break;
 		}
 		
-		return object;
+		return s;
 	}
-
+	
+	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		
 	}
-
+	
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
 		vehicles = map.getVehicles();
