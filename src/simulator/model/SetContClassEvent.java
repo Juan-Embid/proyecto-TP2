@@ -22,5 +22,8 @@ public class SetContClassEvent extends Event {
 		}		
 	}
 	
+	public String toString() {
+		return cs.toString();
+	}
 	
 }

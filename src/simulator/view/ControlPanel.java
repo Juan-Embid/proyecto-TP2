@@ -69,13 +69,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					int option = file.showOpenDialog(null);
+					int option = file.showOpenDialog(ControlPanel.this.getParent());
 					if (option == JFileChooser.APPROVE_OPTION) {
 						File openFile = file.getSelectedFile();
 						_ctrl.reset();
 						_ctrl.loadEvents(new FileInputStream(openFile));
 					}
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 					JOptionPane.showMessageDialog(getParent(), e.getMessage(), "File not found", JOptionPane.WARNING_MESSAGE); // para que se ponga encima y centrado, mensaje, cabecera, tipo de mensaje
 
 				}

@@ -24,4 +24,8 @@ public class SetWeatherEvent extends Event {
 			map.getRoad(w.getFirst()).setWeather(w.getSecond());
 		}
 	}
+	
+	public String toString() {
+		return ws.toString();
+	}
 }

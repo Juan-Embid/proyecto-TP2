@@ -170,26 +170,21 @@ public class Main {
 		if(_inFile != null) {
 			try(InputStream in = new FileInputStream(new File(_inFile));){
 				control.loadEvents(in);
-				if(_outFile == null)
-					o = System.out;
-				else
-					o = new FileOutputStream(_outFile);
-				control.run(_ticks, o);
-				
+			
 				in.close();
-				o.close();
+			
 			}catch(FileNotFoundException e) {
 				throw new IOException("Input file not found");
 			}
 		}
-		else {
+
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					new MainWindow(control);
 				}
 			});
-		}
+		
 	}
 
 	private static void start(String[] args) throws IOException {
