@@ -52,8 +52,7 @@ public class Controller {
 				trafficSimulator.advance();
 
 			states.put(trafficSimulator.report());	
-				}
-		
+		}
 		aux.put("states",states);
 		print.println(aux.toString(3));
 	}

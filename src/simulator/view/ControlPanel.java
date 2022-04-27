@@ -10,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.lang.Thread;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,21 +34,24 @@ import simulator.model.Weather;
 @SuppressWarnings("serial") // para que me quite el warning del serial, que por alguna razon todo el rato sale
 public class ControlPanel extends JPanel implements TrafficSimObserver {
 
-		private JFileChooser file;
-		private JButton fileLoad;
-		private JButton changePollution;
-		private JButton changeWeather1;
-		private JButton run;
-		private JButton stop;
-		private JSpinner ticks;
-		private JButton exit;
-		private Controller _ctrl;
-		private JLabel tickLabel;
-		private boolean _stopped;
-		private ChangeCO2ClassDialog changeCO2;
-		private ChangeWeatherDialog changeWeather;
-		private RoadMap map;
-		private int time1;
+	private volatile Thread _thread; // se comparte info entre los threads de una misma clase
+	private JFileChooser file;
+	private JButton fileLoad;
+	private JButton changePollution;
+	private JButton changeWeather1;
+	private JButton run;
+	private JButton stop;
+	private JSpinner ticks;
+	private JSpinner delay;
+	private JButton exit;
+	private Controller _ctrl;
+	private JLabel tickLabel;
+	private JLabel delayLabel;
+	private boolean _stopped;
+	private ChangeCO2ClassDialog changeCO2;
+	private ChangeWeatherDialog changeWeather;
+	private RoadMap map;
+	private int time1;
 	ControlPanel(Controller controller){
 		_ctrl = controller;
 		_stopped = false;
@@ -119,7 +122,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			public void actionPerformed(ActionEvent arg0) {
 				_stopped = false;
 				enableToolBar(true);
-				run_sim((int) ticks.getValue());
+				run_sim((int) ticks.getValue(), (long) delay.getValue());
 			}
 		});
 		miTool.add(run);
@@ -145,6 +148,16 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		miTool.add(ticks);
 		miTool.addSeparator();
 		
+		// DELAY 
+		delayLabel = new JLabel ("Delay: ");
+		miTool.add(delayLabel); 	
+		delay = new JSpinner(new SpinnerNumberModel(10, 0, 1000, 1)); //value, min, max, step
+		delay.setMinimumSize(new Dimension(70, 35));
+		delay.setMaximumSize(new Dimension(70, 35));
+		delay.setPreferredSize(new Dimension(70, 35));
+		miTool.add(delay);
+		miTool.addSeparator();
+		
 		// EXIT BUTTON
 		miTool.add(Box.createGlue());
 		exit = createButton("Exit", "resources/icons/exit.png");
@@ -165,21 +178,25 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		return button;
 	}
 	
-	private void run_sim(int n) {
-		if (n > 0 && !_stopped) {
+	private void run_sim(int n, long m) {
+		while (n > 0 && !_stopped) {
 			try {
 				_ctrl.run(1);
 			} catch (Exception e) {
 				_stopped = true;
 				return;
 			}
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				run_sim(n - 1);
-			}
-		});
-		} else {
+			// sleep con el error handler. A lo mejor sería mejor poner el throws interruptedexception
+			try {Thread.sleep((long) delay.getValue());}catch(InterruptedException e) {System.out.println(e);}
+			//n--; // TODO hay que hacer esto y despues hacer el n - 1??
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					run_sim(n - 1, m); // TODO comprobar que la m no hay que tocarla
+				}
+			});
+		}
+		if (n <= 0 && !_stopped) { // TODO comprobar que hay que poner este if con el while
 			_stopped = true;
 			enableToolBar(true);
 		}
