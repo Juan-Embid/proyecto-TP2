@@ -122,7 +122,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			public void actionPerformed(ActionEvent arg0) {
 				_stopped = false;
 				enableToolBar(true);
-				run_sim((int) ticks.getValue(), (long) delay.getValue());
+				_thread = new Thread() { // lo creamos
+					public void run() {
+						run_sim((int) ticks.getValue(), (long) delay.getValue()); // TODO me esta dando error aqui
+						_stopped = true;
+						enableToolBar(true);
+					}
+				};
+				_thread.start(); // running
 			}
 		});
 		miTool.add(run);
@@ -132,9 +139,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		stop.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if (_thread != null) _thread.interrupt(); // lo interrumpimos cuando paramos la ejecución
 				stop();
 				enableToolBar(false);
-				_stopped = true;			}
+				_stopped = true;
+			}
 		});
 		miTool.add(stop);
 		
@@ -182,12 +191,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		while (n > 0 && !_stopped) {
 			try {
 				_ctrl.run(1);
+				Thread.sleep((long) delay.getValue());
+			} catch(InterruptedException e) {System.out.println(e); // TODO añadir return?
 			} catch (Exception e) {
 				_stopped = true;
 				return;
 			}
-			// sleep con el error handler. A lo mejor sería mejor poner el throws interruptedexception
-			try {Thread.sleep((long) delay.getValue());}catch(InterruptedException e) {System.out.println(e);}
 			//n--; // TODO hay que hacer esto y despues hacer el n - 1??
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
