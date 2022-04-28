@@ -47,7 +47,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private Controller _ctrl;
 	private JLabel tickLabel;
 	private JLabel delayLabel;
-	private boolean _stopped;
 	private ChangeCO2ClassDialog changeCO2;
 	private ChangeWeatherDialog changeWeather;
 	private RoadMap map;
@@ -119,7 +118,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		run.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				enableToolBar(true);
+				enableToolBar(false);
 				_thread = new Thread() { // lo creamos
 					public void run() {
 						run_sim((int) ticks.getValue(), (int) delay.getValue()); // TODO me esta dando error aqui
@@ -183,19 +182,18 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void run_sim(int n, int m) {
-		while (n > 0 && !_stopped) { // TODO thread not interrupted ponerlo en vez del stopped
+		while (n > 0 && !_thread.isInterrupted()) {
 			try {
 				_ctrl.run(1);
 				Thread.sleep((long) delay.getValue());
 			} catch(InterruptedException e) {System.out.println(e); // TODO añadir return?
 			} catch (Exception e) {
-				_stopped = true;
+				System.out.println(e);
 				return;
 			}
 			n--;
 		}
-		if (n <= 0 && !_stopped) { // TODO comprobar que hay que poner este if con el while
-			_stopped = true;
+		if (n <= 0 && !_thread.isInterrupted()) { // TODO comprobar que hay que poner este if con el while
 			enableToolBar(true);
 		}
 	}
@@ -218,7 +216,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		}
 	}
 	
-	private void enableToolBar(boolean b) { // deshabilitamos todos los botones excepto el del stop
+	private void enableToolBar(boolean b) {
 		fileLoad.setEnabled(b);
 		changePollution.setEnabled(b);
 		changeWeather1.setEnabled(b);
