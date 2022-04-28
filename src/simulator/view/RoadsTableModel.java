@@ -3,6 +3,7 @@ package simulator.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -68,37 +69,50 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		roads = map.getRoads();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				roads = map.getRoads();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		roads = map.getRoads();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				roads = map.getRoads();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		roads = map.getRoads();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				roads = map.getRoads();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		roads = map.getRoads();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				roads = map.getRoads();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		roads = map.getRoads();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				roads = map.getRoads();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onError(String err) {
-		
 	}
-
 }

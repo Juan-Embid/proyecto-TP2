@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -45,34 +46,39 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		timeL.setText("Time: " + time);
-		eventL.setText("");
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				timeL.setText("Time: " + time);
+				eventL.setText("");} // TODO meter la info
+		});}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		eventL.setText("Event added: " + e.toString());
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				eventL.setText("Event added: " + e.toString());}
+		});}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		timeL.setText("Time: " + time);
-		eventL.setText("Welcome!");
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				timeL.setText("Time: " + time);
+				eventL.setText("Welcome!");}
+		});}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		
 	}
 
 	@Override
 	public void onError(String err) {
-		
 	}
-
 }

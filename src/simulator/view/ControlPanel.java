@@ -54,7 +54,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private int time1;
 	ControlPanel(Controller controller){
 		_ctrl = controller;
-		_stopped = false;
 		_ctrl.addObserver(this);
 		initGUI();
 	}
@@ -120,12 +119,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		run.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				_stopped = false;
 				enableToolBar(true);
 				_thread = new Thread() { // lo creamos
 					public void run() {
 						run_sim((int) ticks.getValue(), (int) delay.getValue()); // TODO me esta dando error aqui
-						_stopped = true;
 						enableToolBar(true);
 					}
 				};
@@ -140,9 +137,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (_thread != null) _thread.interrupt(); // lo interrumpimos cuando paramos la ejecución
-				stop();
-				enableToolBar(false);
-				_stopped = true;
+				enableToolBar(true);
 			}
 		});
 		miTool.add(stop);
@@ -188,7 +183,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void run_sim(int n, int m) {
-		while (n > 0 && !_stopped) {
+		while (n > 0 && !_stopped) { // TODO thread not interrupted ponerlo en vez del stopped
 			try {
 				_ctrl.run(1);
 				Thread.sleep((long) delay.getValue());
@@ -197,13 +192,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				_stopped = true;
 				return;
 			}
-			//n--; // TODO hay que hacer esto y despues hacer el n - 1??
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					run_sim(n - 1, m); // TODO comprobar que la m no hay que tocarla
-				}
-			});
+			n--;
 		}
 		if (n <= 0 && !_stopped) { // TODO comprobar que hay que poner este if con el while
 			_stopped = true;
@@ -230,16 +219,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void enableToolBar(boolean b) { // deshabilitamos todos los botones excepto el del stop
-		fileLoad.setEnabled(_stopped);
-		changePollution.setEnabled(_stopped);
-		changeWeather1.setEnabled(_stopped);
-		run.setEnabled(_stopped);
-		stop.setEnabled(b);
-		exit.setEnabled(_stopped);
-	}
-
-	private void stop() {
-		_stopped = true;
+		fileLoad.setEnabled(b);
+		changePollution.setEnabled(b);
+		changeWeather1.setEnabled(b);
+		run.setEnabled(b);
 	}
 	
 	@Override

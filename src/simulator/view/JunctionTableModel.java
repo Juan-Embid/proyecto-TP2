@@ -3,6 +3,7 @@ package simulator.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -75,37 +76,50 @@ public class JunctionTableModel extends AbstractTableModel implements TrafficSim
 	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		this.juncts = map.getJunctions();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				juncts = map.getJunctions();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		this.juncts = map.getJunctions();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				juncts = map.getJunctions();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {		
-		this.juncts = map.getJunctions();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				juncts = map.getJunctions();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		this.juncts = new ArrayList<>();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				juncts = new ArrayList<>();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		this.juncts = map.getJunctions();
-		fireTableDataChanged();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				juncts = map.getJunctions();
+				fireTableDataChanged();}
+		});}
 
 	@Override
 	public void onError(String err) {
-		
 	}
-
 }

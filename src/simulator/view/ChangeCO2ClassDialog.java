@@ -138,12 +138,10 @@ public class ChangeCO2ClassDialog extends JDialog {
 
 	
 	public Vehicle getVehicle() {
-		
 		return (Vehicle) vehicleModel.getSelectedItem();
 	}
 
-public Integer getTicks() {
-		
+	public Integer getTicks() {
 		return (Integer) ticks.getValue();
 	}
 }
