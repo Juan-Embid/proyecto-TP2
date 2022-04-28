@@ -124,7 +124,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				enableToolBar(true);
 				_thread = new Thread() { // lo creamos
 					public void run() {
-						run_sim((int) ticks.getValue(), (long) delay.getValue()); // TODO me esta dando error aqui
+						run_sim((int) ticks.getValue(), (int) delay.getValue()); // TODO me esta dando error aqui
 						_stopped = true;
 						enableToolBar(true);
 					}
@@ -187,7 +187,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		return button;
 	}
 	
-	private void run_sim(int n, long m) {
+	private void run_sim(int n, int m) {
 		while (n > 0 && !_stopped) {
 			try {
 				_ctrl.run(1);
