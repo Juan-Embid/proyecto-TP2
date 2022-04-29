@@ -186,14 +186,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			try {
 				_ctrl.run(1);
 				Thread.sleep((int) delay.getValue());
-			} catch(InterruptedException e) {System.out.println(e); // TODO añadir return?
+			} catch(InterruptedException e) {System.out.println(e); _thread.interrupt();
 			} catch (Exception e) {
 				System.out.println(e);
 				return;
 			}
 			n--;
 		}
-		if (n <= 0 && !_thread.isInterrupted()) { // TODO comprobar que hay que poner este if con el while
+		if (n <= 0 && !_thread.isInterrupted()) {
 			enableToolBar(true);
 		}
 	}

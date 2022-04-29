@@ -43,9 +43,7 @@ public class MainWindow extends JFrame {
 		JPanel mapsPanel = new JPanel();
 		mapsPanel.setLayout(new BoxLayout(mapsPanel, BoxLayout.Y_AXIS));
 		viewsPanel.add(mapsPanel);
-		
-		// TODO cambiar todas las dimensiones
-		
+				
 		JPanel eventsTable = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsTable.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsTable);
@@ -66,7 +64,7 @@ public class MainWindow extends JFrame {
 		mapTable.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapTable);
 		
-	JPanel mapByRoadTable = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
+		JPanel mapByRoadTable = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
 		mapByRoadTable.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapByRoadTable);
 			
